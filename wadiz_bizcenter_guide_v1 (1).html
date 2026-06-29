@@ -1,0 +1,633 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>와디즈 비즈센터 관리자용 답변 가이드</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/tabler-icons.min.css">
+<link href="https://fonts.googleapis.com/css2?family=Pretendard:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Pretendard',sans-serif;background:#f4f5f7;min-height:100vh}
+.hero{background:#1ABFA1;padding:20px 24px 16px}
+.hero-top{display:flex;align-items:center;justify-content:space-between;margin-bottom:14px;flex-wrap:wrap;gap:8px}
+.hero-brand{display:flex;align-items:center;gap:8px}
+.hero-logo{font-size:15px;font-weight:600;color:#fff;letter-spacing:-0.3px}
+.hero-dot{width:5px;height:5px;border-radius:50%;background:rgba(255,255,255,0.5);display:inline-block}
+.hero-sub{font-size:13px;color:rgba(255,255,255,0.85)}
+.ver{font-size:11px;color:rgba(255,255,255,0.6);margin-left:6px}
+.search-wrap{display:flex;align-items:center;gap:8px;background:#fff;border-radius:12px;padding:8px 8px 8px 14px}
+.search-icon{font-size:18px;color:#1ABFA1}
+.search-input{flex:1;border:none;outline:none;font-family:inherit;font-size:14px;color:#222;background:transparent;min-width:0}
+.search-input::placeholder{color:#aaa}
+.search-meta{font-size:11px;color:#999;white-space:nowrap;padding-right:4px}
+.search-btn{display:flex;align-items:center;gap:5px;font-size:13px;font-weight:500;padding:8px 16px;background:#1ABFA1;color:#fff;border:none;border-radius:8px;cursor:pointer}
+.search-btn:hover{opacity:.88}
+.chips{display:flex;gap:6px;flex-wrap:wrap;margin-top:10px}
+.chip{font-size:12px;padding:4px 10px;border-radius:20px;border:1px solid rgba(255,255,255,0.4);color:rgba(255,255,255,0.9);cursor:pointer;background:rgba(255,255,255,0.15)}
+.chip:hover{background:rgba(255,255,255,0.3)}
+.sr-wrap{display:none;background:#fff;border-bottom:2px solid #1ABFA1;padding:14px 20px}
+.sr-wrap.show{display:block}
+.sr-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:10px}
+.sr-title{font-size:13px;font-weight:600;color:#1ABFA1}
+.sr-close{font-size:20px;color:#bbb;cursor:pointer;background:none;border:none;line-height:1}
+.sr-list{display:flex;flex-direction:column;gap:6px}
+.sr-item{background:#f8fffe;border:1px solid #d5f3ee;border-radius:8px;padding:10px 12px;cursor:pointer}
+.sr-item:hover{background:#edfaf8}
+.sr-item-q{font-size:13px;font-weight:500;color:#222;margin-bottom:3px}
+.sr-item-sum{font-size:12px;color:#666;line-height:1.4}
+.sr-tags{display:flex;gap:5px;margin-bottom:4px}
+.sr-tag{font-size:11px;font-weight:500;padding:2px 7px;border-radius:10px}
+.slack-badge{font-size:10px;padding:2px 6px;border-radius:10px;background:#e8f5e9;color:#2e7d32;font-weight:500}
+.sr-empty{font-size:13px;color:#999;text-align:center;padding:16px 0}
+.body{padding:0 20px 40px;max-width:900px;margin:0 auto}
+.sec-label{font-size:11px;font-weight:600;letter-spacing:.07em;color:#1ABFA1;text-transform:uppercase;padding:18px 0 10px;display:flex;align-items:center;gap:5px;border-bottom:1.5px solid #1ABFA1;margin-bottom:12px}
+.stats-row{display:flex;gap:10px;margin-bottom:14px;flex-wrap:wrap}
+.stat{background:#fff;border:1px solid #eee;border-radius:8px;padding:7px 12px;font-size:12px;color:#666;display:flex;align-items:center;gap:5px}
+.stat strong{color:#1ABFA1;font-size:14px}
+.tabs{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:14px}
+.tab{font-size:13px;padding:6px 14px;border:1px solid #ddd;border-radius:20px;cursor:pointer;background:#fff;color:#555;font-family:inherit}
+.tab:hover{border-color:#1ABFA1;color:#1ABFA1}
+.tab.on{background:#1ABFA1;border-color:#1ABFA1;color:#fff;font-weight:500}
+.tab .n{font-size:11px;font-weight:500;background:rgba(0,0,0,.1);border-radius:10px;padding:1px 6px;margin-left:4px}
+.tab.on .n{background:rgba(255,255,255,.28)}
+.flist{display:flex;flex-direction:column;gap:8px}
+.fi{border:1px solid #e8e8e8;border-radius:12px;background:#fff;overflow:hidden}
+.fi:hover{border-color:#1ABFA1}
+.fi.sc{border-left:3px solid #1ABFA1}
+.fq{display:flex;align-items:flex-start;justify-content:space-between;padding:13px 15px;cursor:pointer;gap:10px}
+.fq:hover{background:#f7fefe}
+.fq-l{display:flex;flex-direction:column;gap:5px;flex:1}
+.fq-tags{display:flex;gap:5px;flex-wrap:wrap}
+.ftag{font-size:11px;font-weight:500;padding:2px 8px;border-radius:12px}
+.fq-title{font-size:14px;font-weight:500;color:#222;line-height:1.4}
+.fchev{font-size:16px;color:#bbb;flex-shrink:0;transition:transform .2s;margin-top:2px}
+.fchev.open{transform:rotate(180deg)}
+.fa{display:none;border-top:1px solid #f0f0f0}
+.fa.open{display:block}
+.fa-body{padding:13px 15px}
+.fa-sum{font-size:13px;color:#555;line-height:1.8;margin-bottom:11px;padding-bottom:11px;border-bottom:1px dashed #eee}
+.stog{border:1px solid #eee;border-radius:8px;overflow:hidden;margin-top:7px}
+.stog+.stog{margin-top:5px}
+.st-h{display:flex;align-items:center;justify-content:space-between;padding:8px 12px;cursor:pointer;background:#f8fffe}
+.st-h:hover{background:#edfaf8}
+.st-hl{display:flex;align-items:center;gap:6px;font-size:12px;font-weight:500;color:#1ABFA1}
+.st-hl.cl{color:#888}
+.st-chev{font-size:13px;color:#bbb;transition:transform .2s}
+.st-chev.open{transform:rotate(180deg)}
+.st-b{display:none;padding:11px 13px;border-top:1px solid #f0f0f0;background:#fff}
+.st-b.open{display:block}
+.steps{display:flex;flex-direction:column;gap:5px;margin:5px 0}
+.step{display:flex;align-items:flex-start;gap:8px;font-size:13px;color:#555;line-height:1.6}
+.sn{flex-shrink:0;width:20px;height:20px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:600;color:#fff;margin-top:1px}
+.path-row{display:flex;align-items:center;gap:4px;font-size:12px;color:#555;background:#f5fffe;border:1px solid #d5f3ee;padding:6px 10px;border-radius:8px;flex-wrap:wrap;margin:5px 0}
+.pa{font-size:12px;color:#bbb}
+.formula{background:#f5fffe;border:1px solid #c8efe9;border-radius:8px;padding:8px 13px;font-size:13px;font-weight:600;color:#1ABFA1;text-align:center;margin:5px 0}
+.warn{background:#fff8ed;border:1px solid #ffd999;border-radius:8px;padding:8px 11px;font-size:12px;color:#b07800;line-height:1.6;margin:7px 0;display:flex;gap:6px;align-items:flex-start}
+.warn i{font-size:13px;flex-shrink:0;margin-top:1px}
+.info{background:#edfaf8;border:1px solid #b2ede1;border-radius:8px;padding:8px 11px;font-size:12px;color:#0e7a64;line-height:1.6;margin:7px 0;display:flex;gap:6px;align-items:flex-start}
+.info i{font-size:13px;flex-shrink:0;margin-top:1px}
+.ok{background:#eefbf2;border:1px solid #b3e8c5;border-radius:8px;padding:8px 11px;font-size:12px;color:#1a7a40;line-height:1.6;margin:7px 0;display:flex;gap:6px;align-items:flex-start}
+.ok i{font-size:13px;flex-shrink:0;margin-top:1px}
+
+.qa-wrap { margin-top: 12px; }
+.qa-item { margin-bottom: 14px; border-left: 3px solid #e0e0e0; padding-left: 12px; }
+.qa-q { font-size: 12px; font-weight: 600; color: #444; margin-bottom: 4px; display: flex; align-items: flex-start; gap: 6px; }
+.qa-q-badge { background: #f0f0f0; color: #666; font-size: 10px; font-weight: 700; padding: 2px 6px; border-radius: 4px; white-space: nowrap; flex-shrink: 0; margin-top: 1px; }
+.qa-a { font-size: 12px; color: #1ABFA1; margin-bottom: 4px; display: flex; align-items: flex-start; gap: 6px; }
+.qa-a-badge { background: #e8f8f5; color: #1ABFA1; font-size: 10px; font-weight: 700; padding: 2px 6px; border-radius: 4px; white-space: nowrap; flex-shrink: 0; margin-top: 1px; }
+.qa-a-text { color: #333; }
+.slack-link { display: inline-flex; align-items: center; gap: 4px; font-size: 11px; color: #611f69; text-decoration: none; background: #f4ede8; padding: 3px 8px; border-radius: 4px; margin-top: 6px; }
+.slack-link:hover { background: #e8d5c4; }
+.slack-link svg { width: 12px; height: 12px; }
+.no-link { display: inline-flex; align-items: center; gap: 4px; font-size: 11px; color: #999; background: #f5f5f5; padding: 3px 8px; border-radius: 4px; margin-top: 6px; }
+
+.case-box{background:#fafafa;border:1px solid #eee;border-radius:8px;padding:9px 11px;font-size:12px;color:#555;line-height:1.7;margin:4px 0}
+.case-box strong{color:#1ABFA1}
+.slack-box{background:#f0faf7;border:1px solid #a8e6d0;border-radius:8px;padding:9px 11px;font-size:12px;color:#1a5c45;line-height:1.7;margin:4px 0}
+.slack-from{font-size:11px;color:#888;margin-bottom:3px}
+.sl{font-size:11px;font-weight:600;color:#888;text-transform:uppercase;letter-spacing:.05em;margin:9px 0 4px}
+.sl:first-child{margin-top:0}
+.dvd{height:1px;background:#f0f0f0;margin:9px 0}
+</style>
+</head>
+<body>
+<div class="hero">
+  <div class="hero-top">
+    <div class="hero-brand">
+      <span class="hero-logo">wadiz biz center</span>
+      <span class="hero-dot"></span>
+      <span class="hero-sub">관리자용 답변 가이드</span>
+      <span class="ver">VER.01</span>
+    </div>
+  </div>
+  <div class="search-wrap">
+    <i class="ti ti-search search-icon"></i>
+    <input class="search-input" id="srchInput" type="text" placeholder="문의 내용을 입력하세요... (예: 환불 불가, WITH ISSUES, 후불결제)"/>
+    <span class="search-meta">노션 + 이용가이드 + 슬랙 케이스 DB</span>
+    <button class="search-btn" onclick="doSearch()"><i class="ti ti-search"></i>검색</button>
+  </div>
+  <div class="chips">
+    <span class="chip" onclick="setQ('비즈머니 환불')">비즈머니 환불</span>
+    <span class="chip" onclick="setQ('후불결제 불가')">후불결제 불가</span>
+    <span class="chip" onclick="setQ('WITH ISSUES')">WITH ISSUES</span>
+    <span class="chip" onclick="setQ('예산 감액')">예산 감액</span>
+    <span class="chip" onclick="setQ('소재 불일치')">소재 불일치</span>
+    <span class="chip" onclick="setQ('유령 캠페인')">유령 캠페인</span>
+    <span class="chip" onclick="setQ('판촉비')">판촉비</span>
+    <span class="chip" onclick="setQ('사업자번호')">사업자번호</span>
+    <span class="chip" onclick="setQ('머신러닝')">머신러닝</span>
+  </div>
+</div>
+
+<div class="sr-wrap" id="srWrap">
+  <div class="sr-header">
+    <div class="sr-title" id="srTitle"></div>
+    <button class="sr-close" onclick="closeSr()">×</button>
+  </div>
+  <div class="sr-list" id="srList"></div>
+</div>
+
+<div class="body">
+  <div class="sec-label"><i class="ti ti-book-2" style="font-size:13px"></i>카테고리별 FAQ</div>
+  <div class="stats-row">
+    <div class="stat"><strong id="totalCnt">0</strong>개 가이드 항목</div>
+    <div class="stat"><strong id="slackCnt">0</strong>개 슬랙 케이스 포함</div>
+    <div class="stat">수집 기간: <strong>2024.01~2026.06</strong></div>
+  </div>
+  <div class="tabs" id="tabs"></div>
+  <div class="flist" id="flist"></div>
+</div>
+
+<script>
+const TABS=[
+  {id:'all',label:'전체'},
+  {id:'refund',label:'환불',c:'#0984E3'},
+  {id:'payment',label:'후불결제',c:'#6C5CE7'},
+  {id:'campaign',label:'캠페인·예산',c:'#E8003D'},
+  {id:'creative',label:'소재·오류',c:'#E17055'},
+  {id:'budget',label:'비즈머니',c:'#00B894'},
+  {id:'data',label:'데이터·리포트',c:'#0984E3'},
+  {id:'account',label:'계정·설정',c:'#636e72'},
+  {id:'system',label:'시스템·연동',c:'#1ABFA1'},
+];
+
+const F=[
+
+// ── 환불 ──
+{tab:'refund',tag:'환불',tc:'#0984E3',sc:false,
+ q:'비즈머니 환불 소요 기간 및 처리 기준',
+ kw:['환불','비즈머니','소요','기간','신용카드','계좌이체','수수료'],
+ sum:'신용카드 1년, 계좌이체 180일 이내 자동환불. 기간 초과 시 ERP 품의상신(PG 수수료 2.5%). 미환불 건은 매월 15일 지급, 최대 3일 차이.',
+ g:`<div class="sl">환불 가능 기간</div><div class="steps"><div class="step"><div class="sn" style="background:#0984E3">1</div><span><strong>신용카드</strong> — 충전일로부터 <strong>1년 이내</strong></span></div><div class="step"><div class="sn" style="background:#0984E3">2</div><span><strong>계좌이체</strong> — 충전일로부터 <strong>180일 이내</strong></span></div><div class="step"><div class="sn" style="background:#888">3</div><span>기간 초과 → ERP 품의상신 (PG 수수료 <strong>2.5%</strong>)</span></div></div><div class="info"><i class="ti ti-info-circle"></i>미환불 건: 매월 <strong>15일</strong> 지급. 최대 3일 차이 가능.</div><div class="warn"><i class="ti ti-alert-triangle"></i>쿠폰(무상) 비즈머니는 현금 환불 불가.</div>`,
+ c:`<div class="case-box"><strong>황유라 (406983)</strong><div class="qa-wrap"><div class="qa-item"><div class="qa-q"><span class="qa-q-badge">내용</span><span>내용📥 문의 (윤홍걸)비즈머니 잘못 충전하여 바로 환불신청 했는데 처리가 얼마나 걸릴지 확인 부탁드립니다!💬 답변 (안소연)비즈머니 관리 > 당월 조회 > Ctrl+F로 메이커명 확인 → "환불 신청" 상태 → 승인 처리 완료. 승인 후 1~2 영업일 이내 처리됩니다.</span></div></div></div><a href="https://wadiz.slack.com/archives/C043L2JV60G/p1781593148536229" target="_blank" class="slack-link"><svg viewBox="0 0 24 24" fill="currentColor" style="width:12px;height:12px;flex-shrink:0"><path d="M6 15a2 2 0 0 1-2 2 2 2 0 0 1-2-2 2 2 0 0 1 2-2h2v2zm1 0a2 2 0 0 1 2-2 2 2 0 0 1 2 2v5a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-5zm2-8a2 2 0 0 1-2-2 2 2 0 0 1 2-2 2 2 0 0 1 2 2v2H9zm0 1a2 2 0 0 1 2 2 2 2 0 0 1-2 2H4a2 2 0 0 1-2-2 2 2 0 0 1 2-2h5zm8 2a2 2 0 0 1 2-2 2 2 0 0 1 2 2 2 2 0 0 1-2 2h-2v-2zm-1 0a2 2 0 0 1-2 2 2 2 0 0 1-2-2V5a2 2 0 0 1 2-2 2 2 0 0 1 2 2v5zm-2 8a2 2 0 0 1 2 2 2 2 0 0 1-2 2 2 2 0 0 1-2-2v-2h2zm0-1a2 2 0 0 1-2-2 2 2 0 0 1 2-2h5a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-5z"/></svg>슬랙 원문 보기</a></div></div></div></div>`},
+
+{tab:'refund',tag:'환불',tc:'#0984E3',sc:false,
+ q:'환불 신청 상태 확인 및 승인 처리',
+ kw:['환불','신청','승인','상태','확인','ctrl','비즈머니 관리'],
+ sum:'"환불 신청" = 미승인. 비즈센터 관리자 > 비즈머니 관리 > 당월 조회 > Ctrl+F로 메이커명 검색, 승인 처리.',
+ g:`<div class="path-row"><i class="ti ti-building-store"></i>비즈센터 관리자<span class="pa">›</span>비즈머니/후불결제<span class="pa">›</span>비즈머니 관리</div><div class="steps"><div class="step"><div class="sn" style="background:#0984E3">1</div><span>조회 기간 → <strong>당월로 변경</strong></span></div><div class="step"><div class="sn" style="background:#0984E3">2</div><span><strong>Ctrl+F</strong>로 메이커명 검색</span></div><div class="step"><div class="sn" style="background:#E8003D">!</div><span><strong>환불 신청</strong> → 승인 처리 필요 / <strong>환불 완료</strong> → 이미 처리됨</span></div></div>`,
+ c:null},
+
+{tab:'refund',tag:'환불',tc:'#0984E3',sc:false,
+ q:'PG사 기간 초과 — ERP 품의상신',
+ kw:['ERP','품의상신','PG','기간','초과','수수료','지출결의서'],
+ sum:'PG사 기간 초과 시 ERP 지출결의서로 개별 입금. 마감 D-5, 회계일=해당 월. 완료 후 조규은·성은실 프로님 슬랙 알림 필수.',
+ g:`<div class="warn"><i class="ti ti-alert-triangle"></i>마감: 당월 마지막 영업일 <strong>D-5</strong>. 회계일 = <strong>해당 월</strong> 필수!</div><div class="path-row"><i class="ti ti-database"></i>ERP<span class="pa">›</span>재무회계<span class="pa">›</span>총계정원장<span class="pa">›</span>전표관리<span class="pa">›</span>결의서입력</div><div class="steps"><div class="step"><div class="sn" style="background:#0984E3">1</div><span>우측 상단 <strong>+ (F3)</strong></span></div><div class="step"><div class="sn" style="background:#0984E3">2</div><span>결의내역: YYYY.MM_비즈센터 환불 불가로 인한 메이커 계좌환불 요청</span></div><div class="step"><div class="sn" style="background:#0984E3">3</div><span>증빙: <strong>지로/고지서(불공)</strong> / 예산계정: <strong>비용외특수</strong></span></div><div class="step"><div class="sn" style="background:#0984E3">4</div><span>공급가액: PG 수수료(2.5%) 제한 최종 환불금. 계좌 미등록 → 정소영 프로님</span></div><div class="step"><div class="sn" style="background:#0984E3">5</div><span>결제조건코드: <strong>C107</strong> → 저장 → 첨부 2개</span></div><div class="step"><div class="sn" style="background:#0984E3">6</div><span>결재: 조규은·성은실(결재) / 김보라·이준석·이승훈(합의)</span></div><div class="step"><div class="sn" style="background:#E8003D">!</div><span>저장 후 <strong>슬랙으로 두 분께 반드시 알림!</strong></span></div></div>`,
+ c:null},
+
+{tab:'refund',tag:'환불',tc:'#0984E3',sc:true,
+ q:'환불 수수료 정책 변경 (2025.02.24~) / 환불 실패 건 처리',
+ kw:['환불','수수료','2.5','정책','실패','지출결의서','개별입금'],
+ sum:'2025.02.24부터 환불 수수료 2.5%로 결제수단 무관 동일 적용. 환불 실패 건은 ERP 지출결의서로 개별 입금 처리. 매월 15일 일괄 지급.',
+ g:`<div class="info"><i class="ti ti-info-circle"></i>2025.02.24~: 신용카드/계좌이체 모두 <strong>2.5%</strong> 동일 적용</div><div class="dvd"></div><div class="sl">환불 실패 건 처리</div><div class="steps"><div class="step"><div class="sn" style="background:#0984E3">1</div><span>메이커 계좌 정보 요청 (계좌 미등록 시 정소영 프로님 통해 등록)</span></div><div class="step"><div class="sn" style="background:#0984E3">2</div><span>ERP 지출결의서 상신 → 개별 입금 처리</span></div></div><div class="info"><i class="ti ti-clock"></i>환불 실패 건은 별도 요청 없어도 매월 15일 일괄 지급.</div>`,
+ c:`<div class="case-box"><strong>환불 수수료 정책 변경 공지 (2025.02.24, 안소연)</strong><div class="qa-wrap"><div class="qa-item"><div class="qa-q"><span class="qa-q-badge">내용</span><span>내용📢 공지pg 수수료를 건별로 찾아야 하여 시간이 소요되었는데, 정책 픽스 후 2.5%로 동일 적용. 비즈센터와 광고센터 내 환불 안내 문구 수정 완료.</span></div></div></div><a href="https://wadiz.slack.com/archives/C01QXSB7LMD/p1733462802029659" target="_blank" class="slack-link">
+<svg viewBox="0 0 24 24" fill="currentColor" style="width:12px;height:12px"><path d="M6 15a2 2 0 0 1-2 2 2 2 0 0 1-2-2 2 2 0 0 1 2-2h2v2zm1 0a2 2 0 0 1 2-2 2 2 0 0 1 2 2v5a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-5zm2-8a2 2 0 0 1-2-2 2 2 0 0 1 2-2 2 2 0 0 1 2 2v2H9zm0 1a2 2 0 0 1 2 2 2 2 0 0 1-2 2H4a2 2 0 0 1-2-2 2 2 0 0 1 2-2h5zm8 2a2 2 0 0 1 2-2 2 2 0 0 1 2 2 2 2 0 0 1-2 2h-2v-2zm-1 0a2 2 0 0 1-2 2 2 2 0 0 1-2-2V5a2 2 0 0 1 2-2 2 2 0 0 1 2 2v5zm-2 8a2 2 0 0 1 2 2 2 2 0 0 1-2 2 2 2 0 0 1-2-2v-2h2zm0-1a2 2 0 0 1-2-2 2 2 0 0 1 2-2h5a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-5z"/></svg>슬랙 원문 보기</a></div></div></div><a href="https://wadiz.slack.com/archives/C01QXSB7LMD/p1733462802029659" target="_blank" class="slack-link"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M6 15a2 2 0 0 1-2 2 2 2 0 0 1-2-2 2 2 0 0 1 2-2h2v2zm1 0a2 2 0 0 1 2-2 2 2 0 0 1 2 2v5a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-5zm2-8a2 2 0 0 1-2-2 2 2 0 0 1 2-2 2 2 0 0 1 2 2v2H9zm0 1a2 2 0 0 1 2 2 2 2 0 0 1-2 2H4a2 2 0 0 1-2-2 2 2 0 0 1 2-2h5zm8 2a2 2 0 0 1 2-2 2 2 0 0 1 2 2 2 2 0 0 1-2 2h-2v-2zm-1 0a2 2 0 0 1-2 2 2 2 0 0 1-2-2V5a2 2 0 0 1 2-2 2 2 0 0 1 2 2v5zm-2 8a2 2 0 0 1 2 2 2 2 0 0 1-2 2 2 2 0 0 1-2-2v-2h2zm0-1a2 2 0 0 1-2-2 2 2 0 0 1 2-2h5a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-5z"/></svg>슬랙 원문 보기</a></div>
+<div class="case-box"><strong>환불 실패 건 처리 (안소연, 조규은)</strong><div class="qa-wrap"><div class="qa-item"><div class="qa-q"><span class="qa-q-badge">내용</span><span>내용📢 공유 (안소연)비즈머니 환불 실패건 지출결의서 상신하여 결재 부탁드립니다! 와디즈-2025-7570</span></div></div></div><a href="https://wadiz.slack.com/archives/C0733NLRBJA/p1740360170593839" target="_blank" class="slack-link"><svg viewBox="0 0 24 24" fill="currentColor" style="width:12px;height:12px;flex-shrink:0"><path d="M6 15a2 2 0 0 1-2 2 2 2 0 0 1-2-2 2 2 0 0 1 2-2h2v2zm1 0a2 2 0 0 1 2-2 2 2 0 0 1 2 2v5a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-5zm2-8a2 2 0 0 1-2-2 2 2 0 0 1 2-2 2 2 0 0 1 2 2v2H9zm0 1a2 2 0 0 1 2 2 2 2 0 0 1-2 2H4a2 2 0 0 1-2-2 2 2 0 0 1 2-2h5zm8 2a2 2 0 0 1 2-2 2 2 0 0 1 2 2 2 2 0 0 1-2 2h-2v-2zm-1 0a2 2 0 0 1-2 2 2 2 0 0 1-2-2V5a2 2 0 0 1 2-2 2 2 0 0 1 2 2v5zm-2 8a2 2 0 0 1 2 2 2 2 0 0 1-2 2 2 2 0 0 1-2-2v-2h2zm0-1a2 2 0 0 1-2-2 2 2 0 0 1 2-2h5a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-5z"/></svg>슬랙 원문 보기</a></div></div></div></div>`},
+
+{tab:'refund',tag:'환불',tc:'#0984E3',sc:true,
+ q:'캠페인/광고 없는데 환불 불가 / 환불 취소(철회) 요청',
+ kw:['환불','불가','캠페인','예치금','정산','없는데','철회','취소'],
+ sum:'캠페인 없는데 환불 불가 → 예치금 정산 미완료(종료+4일 미경과) 또는 시스템 오류. 환불 철회 요청은 "환불 완료" 상태면 불가, 재충전 필요.',
+ g:`<div class="steps"><div class="step"><div class="sn" style="background:#0984E3">1</div><span>종료된 캠페인 포함 전체 확인 → 종료일 +4일 경과 여부</span></div><div class="step"><div class="sn" style="background:#0984E3">2</div><span>미경과 시 +4일 후 환불 신청 안내</span></div><div class="step"><div class="sn" style="background:#636e72">↗</div><span>모두 정상인데 불가 → 개발팀(박경원)에 프로젝트 ID, 메이커명 전달</span></div></div><div class="dvd"></div><div class="sl">환불 철회 요청</div><div class="steps"><div class="step"><div class="sn" style="background:#0984E3">1</div><span>"환불 신청" 상태 → 철회 처리 가능 여부 개발팀 확인</span></div><div class="step"><div class="sn" style="background:#0984E3">2</div><span>"환불 완료" 상태 → 철회 불가, 재충전 필요 안내</span></div></div>`,
+ c:`<div class="case-box"><strong>원더메이커스 환불 철회 케이스 (이지수)</strong><div class="qa-wrap"><div class="qa-item"><div class="qa-q"><span class="qa-q-badge">내용</span><span>내용📥 상황메이커가 환불 신청했으나 환불 신청 가능일이 지나 환불 불가 상태. 다시 환불 철회를 희망하는 케이스 확인 → 해당 상태에서도 환불 취소 가능한지 개발팀 문의.</span></div></div></div><a href="https://wadiz.slack.com/archives/C04HKQ3T7EE/p1775708979644649" target="_blank" class="slack-link"><svg viewBox="0 0 24 24" fill="currentColor" style="width:12px;height:12px;flex-shrink:0"><path d="M6 15a2 2 0 0 1-2 2 2 2 0 0 1-2-2 2 2 0 0 1 2-2h2v2zm1 0a2 2 0 0 1 2-2 2 2 0 0 1 2 2v5a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-5zm2-8a2 2 0 0 1-2-2 2 2 0 0 1 2-2 2 2 0 0 1 2 2v2H9zm0 1a2 2 0 0 1 2 2 2 2 0 0 1-2 2H4a2 2 0 0 1-2-2 2 2 0 0 1 2-2h5zm8 2a2 2 0 0 1 2-2 2 2 0 0 1 2 2 2 2 0 0 1-2 2h-2v-2zm-1 0a2 2 0 0 1-2 2 2 2 0 0 1-2-2V5a2 2 0 0 1 2-2 2 2 0 0 1 2 2v5zm-2 8a2 2 0 0 1 2 2 2 2 0 0 1-2 2 2 2 0 0 1-2-2v-2h2zm0-1a2 2 0 0 1-2-2 2 2 0 0 1 2-2h5a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-5z"/></svg>슬랙 원문 보기</a></div></div></div></div>`},
+
+// ── 후불결제 ──
+{tab:'payment',tag:'후불결제',tc:'#6C5CE7',sc:false,
+ q:'후불결제 알럿 안 뜸 — 원인 파악 및 처리',
+ kw:['후불결제','알럿','불가','부정점수','미수금','블랙리스트'],
+ sum:'부정점수 -6점 이하, 미정산 금액 존재, 블랙리스트 중 하나가 원인. 어드민 메이커이력관리에서 확인.',
+ g:`<div class="path-row"><i class="ti ti-layout-dashboard"></i>어드민<span class="pa">›</span>리워드프로젝트 관리<span class="pa">›</span>프로젝트번호<span class="pa">›</span>메이커이력관리(파란글씨)<span class="pa">›</span>반려/취소/부정 탭 + 스크롤 맨 아래</div><div class="steps"><div class="step"><div class="sn" style="background:#E8003D">1</div><span><strong>부정점수 -6점 이하</strong></span></div><div class="step"><div class="sn" style="background:#E8003D">2</div><span><strong>미정산(미수금) 존재</strong></span></div><div class="step"><div class="sn" style="background:#E8003D">3</div><span><strong>블랙리스트 등록</strong></span></div></div>`,
+ c:null},
+
+{tab:'payment',tag:'후불결제',tc:'#6C5CE7',sc:true,
+ q:'화이트리스트 등록 / 미수금 입금 후에도 미활성화 / 부정점수 미반영',
+ kw:['화이트리스트','등록','삭제','부정이력','활성화','미수금','입금'],
+ sum:'부정이력 삭제 확인 후 화이트리스트 등록. 미수금 납부 완료 후에도 미활성화 시 정산팀 부정이력 삭제 요청 후 등록. 본펀딩 종료 후 반드시 삭제.',
+ g:`<div class="steps"><div class="step"><div class="sn" style="background:#6C5CE7">1</div><span>어드민 > 메이커이력관리 > 반려/취소/부정 탭에서 부정이력 삭제 확인</span></div><div class="step"><div class="sn" style="background:#6C5CE7">2</div><span>미삭제 시 @서영신 프로님 태그 (cc. @안소연)</span></div><div class="step"><div class="sn" style="background:#6C5CE7">3</div><span>삭제 확인 후 화이트리스트 등록</span></div></div><div class="path-row"><i class="ti ti-building-store"></i>비즈센터<span class="pa">›</span>후불결제관리<span class="pa">›</span>허용 사업자 관리<span class="pa">›</span>신규등록</div><div class="warn"><i class="ti ti-alert-triangle"></i><strong>본펀딩 종료 후 반드시 삭제!</strong></div>`,
+ c:`<div class="case-box"><strong>화이트리스트 등록 처리 케이스</strong><div class="qa-wrap"><div class="qa-item"><div class="qa-q"><span class="qa-q-badge">내용</span><span>내용📥 문의해당 메이커 현재 부정 이력 삭제 완료하였는데요, 화이트리스트 등록으로 후불결제 활성화 가능한지요?💬 답변 (안소연)부정점수 -10점으로 확인됩니다. 미수금 납부 여부 확인(재무팀) 및 부정이력 삭제 후에 말씀해주시면 화이트리스트 등록 하겠습니다!💬 답변 (박수지)현재 부정 이력 삭제 완료하였는데요. 연동에 시간이 걸려 화이트리스트 등록으로 후불결제 활성화 도와드리겠습니다.</span></div></div></div><a href="https://wadiz.slack.com/archives/C043L2JV60G/p1775697251106829" target="_blank" class="slack-link">
+<svg viewBox="0 0 24 24" fill="currentColor" style="width:12px;height:12px"><path d="M6 15a2 2 0 0 1-2 2 2 2 0 0 1-2-2 2 2 0 0 1 2-2h2v2zm1 0a2 2 0 0 1 2-2 2 2 0 0 1 2 2v5a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-5zm2-8a2 2 0 0 1-2-2 2 2 0 0 1 2-2 2 2 0 0 1 2 2v2H9zm0 1a2 2 0 0 1 2 2 2 2 0 0 1-2 2H4a2 2 0 0 1-2-2 2 2 0 0 1 2-2h5zm8 2a2 2 0 0 1 2-2 2 2 0 0 1 2 2 2 2 0 0 1-2 2h-2v-2zm-1 0a2 2 0 0 1-2 2 2 2 0 0 1-2-2V5a2 2 0 0 1 2-2 2 2 0 0 1 2 2v5zm-2 8a2 2 0 0 1 2 2 2 2 0 0 1-2 2 2 2 0 0 1-2-2v-2h2zm0-1a2 2 0 0 1-2-2 2 2 0 0 1 2-2h5a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-5z"/></svg>슬랙 원문 보기</a></div></div></div><a href="https://wadiz.slack.com/archives/C043L2JV60G/p1775697251106829" target="_blank" class="slack-link"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M6 15a2 2 0 0 1-2 2 2 2 0 0 1-2-2 2 2 0 0 1 2-2h2v2zm1 0a2 2 0 0 1 2-2 2 2 0 0 1 2 2v5a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-5zm2-8a2 2 0 0 1-2-2 2 2 0 0 1 2-2 2 2 0 0 1 2 2v2H9zm0 1a2 2 0 0 1 2 2 2 2 0 0 1-2 2H4a2 2 0 0 1-2-2 2 2 0 0 1 2-2h5zm8 2a2 2 0 0 1 2-2 2 2 0 0 1 2 2 2 2 0 0 1-2 2h-2v-2zm-1 0a2 2 0 0 1-2 2 2 2 0 0 1-2-2V5a2 2 0 0 1 2-2 2 2 0 0 1 2 2v5zm-2 8a2 2 0 0 1 2 2 2 2 0 0 1-2 2 2 2 0 0 1-2-2v-2h2zm0-1a2 2 0 0 1-2-2 2 2 0 0 1 2-2h5a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-5z"/></svg>슬랙 원문 보기</a></div>`},
+
+{tab:'payment',tag:'후불결제',tc:'#6C5CE7',sc:true,
+ q:'성과연동 후불결제 한도 정책 / 한도 잔여 비정상 표기',
+ kw:['성과연동','후불결제','한도','변경','달성금액','잔여','이상','마이너스'],
+ sum:'성과연동 후불결제 한도: 달성금액 8천만원 이상 → 기본 한도+1천만원(2025년 변경). 한도 잔여가 비정상적으로 낮거나 마이너스인 경우 개발팀/정산팀 확인.',
+ g:`<div class="info"><i class="ti ti-info-circle"></i><strong>성과연동 후불결제 한도 변경</strong><br>As-is: 달성금액 1억 → 기본 후불결제 한도+1천만원<br>To-be: 달성금액 8천만원 → 기본 후불결제 한도+1천만원</div><div class="dvd"></div><div class="sl">한도 잔여 비정상 표기</div><div class="steps"><div class="step"><div class="sn" style="background:#6C5CE7">1</div><span>비즈센터 후불결제 한도 현황 화면 확인</span></div><div class="step"><div class="sn" style="background:#636e72">↗</div><span>비정상 표기 지속 시 → 개발팀(박경원) 또는 정산팀 확인 요청</span></div></div>`,
+ c:null},
+
+// ── 캠페인·예산 ──
+{tab:'campaign',tag:'캠페인',tc:'#E8003D',sc:false,
+ q:'캠페인 예산 감액 공식 및 불가 시 대응',
+ kw:['감액','예산','소진','1.3','불가','공식'],
+ sum:'소진금액 × 1.3 이하로는 감액 불가. 불가 시 캠페인 OFF, 삭제 후 재세팅, 기간 만료 대기 중 선택.',
+ g:`<div class="formula">최소 수정 가능 총예산 = 소진금액 × 1.3</div><div class="steps"><div class="step"><div class="sn" style="background:#E8003D">1</div><span>쉐도우 로그인 → 오늘 날짜 포함 소진금액 확인</span></div><div class="step"><div class="sn" style="background:#E8003D">2</div><span>소진 × 1.3 → 원하는 금액과 비교</span></div><div class="step"><div class="sn" style="background:#E8003D">3</div><span>원하는 금액 &lt; 소진×1.3 → 감액 불가</span></div></div><div class="dvd"></div><div class="steps"><div class="step"><div class="sn" style="background:#888">A</div><span><strong>캠페인 OFF</strong></span></div><div class="step"><div class="sn" style="background:#888">B</div><span><strong>삭제 후 재세팅</strong> (+4일 후 한도 반환)</span></div><div class="step"><div class="sn" style="background:#888">C</div><span><strong>기간 만료 대기</strong></span></div></div>`,
+ c:`<div class="case-box"><strong>델리코리아 (408803, 2026.06)</strong><div class="qa-wrap"><div class="qa-item"><div class="qa-q"><span class="qa-q-badge">내용</span><span>내용📥 문의 (이진향)예산 300만→270만 감액 요청드립니다.💬 답변 (김효성)소진금액 233만원 × 1.3 = 302.9만원. 270만 < 302.9만 → 감액 불가. 캠페인 OFF 처리 후 재세팅 권고드립니다.</span></div></div></div></div></div></div></div>`},
+
+{tab:'campaign',tag:'캠페인',tc:'#E8003D',sc:true,
+ q:'캠페인 기간 중 갑자기 종료 (사업자번호 변경) / 기간연장 120분 전 불가',
+ kw:['캠페인','종료','사업자번호','중단','자동','120분','기간연장','수정불가'],
+ sum:'캠페인 라이브 중 사업자번호 변경 시 자동 중단. 캠페인 종료 120분 전부터 기간 연장 수정 불가 (예산 감액/증액은 가능).',
+ g:`<div class="sl">사업자번호 변경으로 인한 자동 중단</div><div class="warn"><i class="ti ti-alert-triangle"></i>캠페인 진행 중 사업자번호 변경 → 자동 중단.</div><div class="steps"><div class="step"><div class="sn" style="background:#E8003D">1</div><span>어드민 > 프로젝트 번호 > 사업자번호 변경 이력 확인</span></div><div class="step"><div class="sn" style="background:#E8003D">2</div><span>사업자번호 원래대로 복구 → 재개 시도</span></div><div class="step"><div class="sn" style="background:#E8003D">3</div><span>복구 불가 시: 캠페인 종료 → +4일 후 예치금 반환 → 변경된 번호로 신규 세팅</span></div></div><div class="dvd"></div><div class="sl">기간 연장 불가 (종료 120분 전)</div><div class="warn"><i class="ti ti-alert-triangle"></i>캠페인 종료 <strong>120분 전</strong>부터 기간 연장 수정 불가. 예산 감액/증액은 가능.</div>`,
+ c:`<div class="case-box"><strong>rangemate (401621)</strong><div class="qa-wrap"><div class="qa-item"><div class="qa-q"><span class="qa-q-badge">내용</span><span>내용📥 문의 (PD)광고 기간 남았는데 캠페인이 갑자기 종료됐습니다.💬 답변 (김효성)어드민에서 사업자번호 변경 이력 확인 결과 원인 파악. 사업자번호 복구 또는 신규 캠페인 재세팅 필요합니다.</span></div></div></div><a href="https://wadiz.slack.com/archives/C0733NLRBJA/p1778649739008029" target="_blank" class="slack-link">
+<svg viewBox="0 0 24 24" fill="currentColor" style="width:12px;height:12px"><path d="M6 15a2 2 0 0 1-2 2 2 2 0 0 1-2-2 2 2 0 0 1 2-2h2v2zm1 0a2 2 0 0 1 2-2 2 2 0 0 1 2 2v5a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-5zm2-8a2 2 0 0 1-2-2 2 2 0 0 1 2-2 2 2 0 0 1 2 2v2H9zm0 1a2 2 0 0 1 2 2 2 2 0 0 1-2 2H4a2 2 0 0 1-2-2 2 2 0 0 1 2-2h5zm8 2a2 2 0 0 1 2-2 2 2 0 0 1 2 2 2 2 0 0 1-2 2h-2v-2zm-1 0a2 2 0 0 1-2 2 2 2 0 0 1-2-2V5a2 2 0 0 1 2-2 2 2 0 0 1 2 2v5zm-2 8a2 2 0 0 1 2 2 2 2 0 0 1-2 2 2 2 0 0 1-2-2v-2h2zm0-1a2 2 0 0 1-2-2 2 2 0 0 1 2-2h5a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-5z"/></svg>슬랙 원문 보기</a></div></div></div><a href="https://wadiz.slack.com/archives/C043L2JV60G/p1781593624751789" target="_blank" class="slack-link"><svg viewBox="0 0 24 24" fill="currentColor" style="width:12px;height:12px;flex-shrink:0"><path d="M6 15a2 2 0 0 1-2 2 2 2 0 0 1-2-2 2 2 0 0 1 2-2h2v2zm1 0a2 2 0 0 1 2-2 2 2 0 0 1 2 2v5a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-5zm2-8a2 2 0 0 1-2-2 2 2 0 0 1 2-2 2 2 0 0 1 2 2v2H9zm0 1a2 2 0 0 1 2 2 2 2 0 0 1-2 2H4a2 2 0 0 1-2-2 2 2 0 0 1 2-2h5zm8 2a2 2 0 0 1 2-2 2 2 0 0 1 2 2 2 2 0 0 1-2 2h-2v-2zm-1 0a2 2 0 0 1-2 2 2 2 0 0 1-2-2V5a2 2 0 0 1 2-2 2 2 0 0 1 2 2v5zm-2 8a2 2 0 0 1 2 2 2 2 0 0 1-2 2 2 2 0 0 1-2-2v-2h2zm0-1a2 2 0 0 1-2-2 2 2 0 0 1 2-2h5a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-5z"/></svg>슬랙 원문 보기</a></div>`},
+
+{tab:'campaign',tag:'캠페인',tc:'#E8003D',sc:false,
+ q:'캠페인 시작-종료 일시 / 프로젝트 일정 반영 / 오픈예정 세팅 가능 시점',
+ kw:['시작','종료','일시','24시간','간격','프로젝트','일정','반영','오픈예정','세팅','심사'],
+ sum:'시작-종료 간격 최소 24시간 필요. 프로젝트 일정 변경 후 비즈센터 반영까지 약 1시간 30분 소요. 오픈예정 정식 게시 후부터 캠페인 세팅 가능.',
+ g:`<div class="warn"><i class="ti ti-alert-triangle"></i>시작-종료 일시 간격 <strong>최소 24시간</strong> 필수. 미만 시 메타 연동 오류.</div><div class="info"><i class="ti ti-clock"></i>프로젝트 일정 변경 후 비즈센터 반영까지 <strong>약 1시간 30분</strong> 소요.</div><div class="info"><i class="ti ti-check"></i>심사 중(AI 검수 단계) → 비즈센터 세팅 불가. 오픈예정 정식 게시 이후부터 캠페인 세팅 및 충전 가능.</div>`,
+ c:null},
+
+{tab:'campaign',tag:'캠페인',tc:'#E8003D',sc:true,
+ q:'예치금 잔액 0원 표시 오류',
+ kw:['예치금','잔액','0원','오류','소진금액','캠페인 관리'],
+ sum:'캠페인 관리 페이지 예치금 잔액이 0원으로 표시되는 화면 버그. 실제 광고는 정상 소진 중. 비즈머니 이용내역 상세에서 실제 금액 확인 가능.',
+ g:`<div class="steps"><div class="step"><div class="sn" style="background:#E8003D">1</div><span>비즈머니 이용내역 &gt; 상세내역에서 실제 소진금액 확인 안내</span></div><div class="step"><div class="sn" style="background:#636e72">↗</div><span>지속 시 → 개발팀(박경원) 보고</span></div></div><div class="info"><i class="ti ti-info-circle"></i>예치금 잔액 = 총액 - 소진금액으로 계산되어야 하나 0원으로 표시되는 경우 일시적 화면 오류.</div>`,
+ c:`<div class="case-box"><strong>예치금 잔액 0원 오류 케이스</strong><div class="qa-wrap"><div class="qa-item"><div class="qa-q"><span class="qa-q-badge">내용</span><span>내용📥 문의캠페인 관리 페이지 예치금 잔액이 0원으로 보임. 실제 광고비는 정상 소진 중.💬 답변 (안소연)광고비는 정상 소진된 점과 비즈머니 상세 이용내역 or 비즈머니 현황 탭에서 실제 잔여 비즈머니 확인이 가능한 점 안내.</span></div></div></div><a href="https://wadiz.slack.com/archives/C04HKQ3T7EE/p1719988314509359" target="_blank" class="slack-link"><svg viewBox="0 0 24 24" fill="currentColor" style="width:12px;height:12px;flex-shrink:0"><path d="M6 15a2 2 0 0 1-2 2 2 2 0 0 1-2-2 2 2 0 0 1 2-2h2v2zm1 0a2 2 0 0 1 2-2 2 2 0 0 1 2 2v5a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-5zm2-8a2 2 0 0 1-2-2 2 2 0 0 1 2-2 2 2 0 0 1 2 2v2H9zm0 1a2 2 0 0 1 2 2 2 2 0 0 1-2 2H4a2 2 0 0 1-2-2 2 2 0 0 1 2-2h5zm8 2a2 2 0 0 1 2-2 2 2 0 0 1 2 2 2 2 0 0 1-2 2h-2v-2zm-1 0a2 2 0 0 1-2 2 2 2 0 0 1-2-2V5a2 2 0 0 1 2-2 2 2 0 0 1 2 2v5zm-2 8a2 2 0 0 1 2 2 2 2 0 0 1-2 2 2 2 0 0 1-2-2v-2h2zm0-1a2 2 0 0 1-2-2 2 2 0 0 1 2-2h5a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-5z"/></svg>슬랙 원문 보기</a></div></div></div></div>`},
+
+{tab:'campaign',tag:'캠페인',tc:'#E8003D',sc:true,
+ q:'소진금액이 새로고침마다 달라짐 / 예산보다 초과 소진된 것처럼 보임',
+ kw:['소진금액','새로고침','달라','예산','초과','오류','실시간','배치'],
+ sum:'비즈센터 소진금액은 실시간이 아닌 배치 처리 방식 → 새로고침마다 달라 보이는 건 정상. 예산보다 더 소진된 것처럼 보이는 경우 메타 API 연동 오류일 수 있음.',
+ g:`<div class="info"><i class="ti ti-info-circle"></i>비즈센터 소진금액은 실시간이 아닌 <strong>배치 처리 방식</strong>. 새로고침마다 다르게 보이는 건 정상.</div><div class="steps"><div class="step"><div class="sn" style="background:#E8003D">1</div><span>메타 광고관리자 지출금액과 비교</span></div><div class="step"><div class="sn" style="background:#E8003D">2</div><span>원단위 차이는 정상 (API 연동 시점 차이)</span></div><div class="step"><div class="sn" style="background:#636e72">↗</div><span>큰 차이 지속 시 → 은영프로님 태그 + 개발팀(박경원)</span></div></div>`,
+ c:`<div class="case-box"><strong>소진금액 새로고침마다 달라지는 케이스 (315616, 360772)</strong><div class="qa-wrap"><div class="qa-item"><div class="qa-q"><span class="qa-q-badge">내용</span><span>내용📥 문의 (윤소희)비즈센터 소진금액이 새로고침할 때마다 다르게 보이고 있어서 확인 부탁드립니다. 현재 설정한 예산보다 더 많이 소진된 것으로 보여 오류가 있는 것 같습니다.💬 답변 (안소연)비즈센터-메타 데이터를 연동하는 메타의 API 오류로 확인되었습니다. 검수가 완료된 캠페인은 Meta에 정상적으로 라이브되고 있음을 안내드립니다.</span></div></div></div><a href="https://wadiz.slack.com/archives/C01QXSB7LMD/p1719985917810149" target="_blank" class="slack-link">
+<svg viewBox="0 0 24 24" fill="currentColor" style="width:12px;height:12px"><path d="M6 15a2 2 0 0 1-2 2 2 2 0 0 1-2-2 2 2 0 0 1 2-2h2v2zm1 0a2 2 0 0 1 2-2 2 2 0 0 1 2 2v5a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-5zm2-8a2 2 0 0 1-2-2 2 2 0 0 1 2-2 2 2 0 0 1 2 2v2H9zm0 1a2 2 0 0 1 2 2 2 2 0 0 1-2 2H4a2 2 0 0 1-2-2 2 2 0 0 1 2-2h5zm8 2a2 2 0 0 1 2-2 2 2 0 0 1 2 2 2 2 0 0 1-2 2h-2v-2zm-1 0a2 2 0 0 1-2 2 2 2 0 0 1-2-2V5a2 2 0 0 1 2-2 2 2 0 0 1 2 2v5zm-2 8a2 2 0 0 1 2 2 2 2 0 0 1-2 2 2 2 0 0 1-2-2v-2h2zm0-1a2 2 0 0 1-2-2 2 2 0 0 1 2-2h5a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-5z"/></svg>슬랙 원문 보기</a></div></div></div><a href="https://wadiz.slack.com/archives/C01QXSB7LMD/p1719985917810149" target="_blank" class="slack-link"><svg viewBox="0 0 24 24" fill="currentColor" style="width:12px;height:12px;flex-shrink:0"><path d="M6 15a2 2 0 0 1-2 2 2 2 0 0 1-2-2 2 2 0 0 1 2-2h2v2zm1 0a2 2 0 0 1 2-2 2 2 0 0 1 2 2v5a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-5zm2-8a2 2 0 0 1-2-2 2 2 0 0 1 2-2 2 2 0 0 1 2 2v2H9zm0 1a2 2 0 0 1 2 2 2 2 0 0 1-2 2H4a2 2 0 0 1-2-2 2 2 0 0 1 2-2h5zm8 2a2 2 0 0 1 2-2 2 2 0 0 1 2 2 2 2 0 0 1-2 2h-2v-2zm-1 0a2 2 0 0 1-2 2 2 2 0 0 1-2-2V5a2 2 0 0 1 2-2 2 2 0 0 1 2 2v5zm-2 8a2 2 0 0 1 2 2 2 2 0 0 1-2 2 2 2 0 0 1-2-2v-2h2zm0-1a2 2 0 0 1-2-2 2 2 0 0 1 2-2h5a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-5z"/></svg>슬랙 원문 보기</a></div>`},
+
+{tab:'data',tag:'리포트',tc:'#0984E3',sc:true,
+ q:'비즈센터 리포트 소진금액 및 효율 미노출 오류',
+ kw:['리포트','소진금액','효율','미노출','오류','조회','안보임'],
+ sum:'비즈센터 리포트 페이지에서 오늘자 소진금액 및 효율이 조회되지 않는 현상 — 개발팀 원인 확인 중. 메타 광고관리자에서 직접 확인 안내.',
+ g:`<div class="steps"><div class="step"><div class="sn" style="background:#0984E3">1</div><span>비즈센터 리포트에서 날짜 범위 조정 후 재조회</span></div><div class="step"><div class="sn" style="background:#0984E3">2</div><span>동일한 이슈 지속 시 → 메타 광고관리자에서 직접 확인 안내</span></div><div class="step"><div class="sn" style="background:#636e72">↗</div><span>계속 미노출 → 개발팀(박경원) 보고</span></div></div>`,
+ c:`<div class="case-box"><strong>리포트 소진금액 미노출 공지 (조규은)</strong><div class="qa-wrap"><div class="qa-item"><div class="qa-q"><span class="qa-q-badge">내용</span><span>내용📢 공지 (조규은)비즈센터 리포트 페이지에서 오늘자 소진금액 및 효율이 조회되지 않는 현상이 확인되고 있습니다. 개발 프로님들께서 원인 확인 중이시며, 해결되는 대로 안내드리겠습니다. 바로 성과 확인이 필요하신 분들은 메타 광고관리자 페이지에서 확인 부탁드립니다.</span></div></div></div><a href="https://wadiz.slack.com/archives/C043L2JV60G/p1763001880338499" target="_blank" class="slack-link"><svg viewBox="0 0 24 24" fill="currentColor" style="width:12px;height:12px;flex-shrink:0"><path d="M6 15a2 2 0 0 1-2 2 2 2 0 0 1-2-2 2 2 0 0 1 2-2h2v2zm1 0a2 2 0 0 1 2-2 2 2 0 0 1 2 2v5a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-5zm2-8a2 2 0 0 1-2-2 2 2 0 0 1 2-2 2 2 0 0 1 2 2v2H9zm0 1a2 2 0 0 1 2 2 2 2 0 0 1-2 2H4a2 2 0 0 1-2-2 2 2 0 0 1 2-2h5zm8 2a2 2 0 0 1 2-2 2 2 0 0 1 2 2 2 2 0 0 1-2 2h-2v-2zm-1 0a2 2 0 0 1-2 2 2 2 0 0 1-2-2V5a2 2 0 0 1 2-2 2 2 0 0 1 2 2v5zm-2 8a2 2 0 0 1 2 2 2 2 0 0 1-2 2 2 2 0 0 1-2-2v-2h2zm0-1a2 2 0 0 1-2-2 2 2 0 0 1 2-2h5a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-5z"/></svg>슬랙 원문 보기</a></div></div></div></div>`},
+
+{tab:'campaign',tag:'캠페인',tc:'#E8003D',sc:true,
+ q:'비즈센터 소진금액과 메타 광고관리자 금액 상이',
+ kw:['소진','금액','불일치','비즈센터','메타','차이','삭제소재'],
+ sum:'API 연동 시점에 따른 원단위 차이 발생 가능. 삭제된 소재로 소진된 금액도 캠페인 이력에 포함. 큰 차이 지속 시 은영프로님 태그.',
+ g:`<div class="steps"><div class="step"><div class="sn" style="background:#E8003D">1</div><span>비즈센터 리포트 vs 메타 광고관리자 지출 금액 비교</span></div><div class="step"><div class="sn" style="background:#E8003D">2</div><span>삭제된 소재 여부 확인 — 삭제 소재도 소진 금액에 포함</span></div><div class="step"><div class="sn" style="background:#E8003D">3</div><span>API 연동 시점에 따른 원단위 차이는 정상</span></div><div class="step"><div class="sn" style="background:#636e72">↗</div><span>큰 차이 지속 → 은영프로님 태그 + 개발팀(박경원)</span></div></div>`,
+ c:`<div class="case-box"><strong>소진금액 불일치 케이스 (안소연 확인)</strong><div class="qa-wrap"><div class="qa-item"><div class="qa-q"><span class="qa-q-badge">내용</span><span>내용📥 문의 (PD)비즈센터 소진금액과 메타 광고관리자 지출금액이 다르게 나옵니다.💬 답변 (안소연)확인해보니 삭제된 소재가 30개나 되는 캠페인이네요. API 연동 시점에 따라 소진 광고비와 실제 청구 금액에 원단위 차이가 있을 수 있습니다.</span></div></div></div><a href="https://wadiz.slack.com/archives/C04HKQ3T7EE/p1708920007109699" target="_blank" class="slack-link"><svg viewBox="0 0 24 24" fill="currentColor" style="width:12px;height:12px;flex-shrink:0"><path d="M6 15a2 2 0 0 1-2 2 2 2 0 0 1-2-2 2 2 0 0 1 2-2h2v2zm1 0a2 2 0 0 1 2-2 2 2 0 0 1 2 2v5a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-5zm2-8a2 2 0 0 1-2-2 2 2 0 0 1 2-2 2 2 0 0 1 2 2v2H9zm0 1a2 2 0 0 1 2 2 2 2 0 0 1-2 2H4a2 2 0 0 1-2-2 2 2 0 0 1 2-2h5zm8 2a2 2 0 0 1 2-2 2 2 0 0 1 2 2 2 2 0 0 1-2 2h-2v-2zm-1 0a2 2 0 0 1-2 2 2 2 0 0 1-2-2V5a2 2 0 0 1 2-2 2 2 0 0 1 2 2v5zm-2 8a2 2 0 0 1 2 2 2 2 0 0 1-2 2 2 2 0 0 1-2-2v-2h2zm0-1a2 2 0 0 1-2-2 2 2 0 0 1 2-2h5a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-5z"/></svg>슬랙 원문 보기</a></div></div></div></div>`},
+
+// ── 소재·오류 (통합) ──
+{tab:'creative',tag:'소재·오류',tc:'#E17055',sc:false,
+ q:'소재 오류 유형별 처리 — WITH ISSUES / GIF / 내부 검수 미복구',
+ kw:['WITH ISSUES','오류','미리보기','소재','API','연동','실패','GIF','MP4','검수','복구','동영상'],
+ sum:'WITH ISSUES: 미리보기 여부로 CASE 구분. GIF 소재는 MP4로 변환 후 재업로드. 메타 자동 복구됐는데 비즈센터 반려 유지 시 개발팀 수동 복구 요청.',
+ g:`<div class="info"><i class="ti ti-clock"></i>알림은 1시간에 1회. 반복 시에만 액션.</div><div class="sl">CASE 1 — WITH ISSUES (미리보기 보임)</div><div class="steps"><div class="step"><div class="sn" style="background:#E17055">1</div><span>소재 텍스트에 <strong>띄어쓰기 추가 후 삭제</strong> → [동의하고 게시]</span></div><div class="step"><div class="sn" style="background:#888">↗</div><span>안 되면 → 개발팀(박경원) CC</span></div></div><div class="dvd"></div><div class="sl">CASE 2 — WITH ISSUES (미리보기 안 보임, API 연동 실패)</div><div class="steps"><div class="step"><div class="sn" style="background:#E17055">1</div><span>담당 PD → 소재 삭제 후 재등록 요청</span></div><div class="step"><div class="sn" style="background:#888">↗</div><span>안 되면 → 개발팀(박경원) CC</span></div></div><div class="dvd"></div><div class="sl">GIF 소재 게재 오류</div><div class="steps"><div class="step"><div class="sn" style="background:#E17055">1</div><span>GIF 소재 삭제</span></div><div class="step"><div class="sn" style="background:#E17055">2</div><span>GIF → <strong>MP4로 변환</strong> 후 '소재 업로드' 버튼으로 재업로드</span></div></div><div class="dvd"></div><div class="sl">메타 자동 복구됐는데 비즈센터 반려 유지</div><div class="steps"><div class="step"><div class="sn" style="background:#E17055">1</div><span>메타 광고관리자에서 해당 소재 ACTIVE 상태 확인</span></div><div class="step"><div class="sn" style="background:#636e72">↗</div><span>비즈센터 반려 유지 시 → 개발팀(박경원)에 캠페인ID, 소재ID 전달 → 수동 복구 요청</span></div></div>`,
+ c:`<div class="case-box"><strong>뮤직포유 (406995, 2026.06) — 성창에프앤지 (408803)</strong><div class="qa-wrap"><div class="qa-item"><div class="qa-q"><span class="qa-q-badge">내용</span><span>내용📥 상황동영상 파일 처리 실패 오류. WITH ISSUES + 미리보기 미노출(CASE 2).💬 처리 (김효성)담당 PD에게 소재 삭제 후 재업로드 요청 → 처리 완료.📢 WITH ISSUES 구별법 (박민희)① 단순 띄어쓰기 오류 ② API 미연동 이슈. 메타 대시보드에서 소재 미리보기가 뜨느냐, 뜨지 않고 회색 기본처리 되어있느냐로 구별.</span></div></div></div><a href="https://wadiz.slack.com/archives/C047BM5M0H0/p1782025331480349" target="_blank" class="slack-link">
+<svg viewBox="0 0 24 24" fill="currentColor" style="width:12px;height:12px"><path d="M6 15a2 2 0 0 1-2 2 2 2 0 0 1-2-2 2 2 0 0 1 2-2h2v2zm1 0a2 2 0 0 1 2-2 2 2 0 0 1 2 2v5a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-5zm2-8a2 2 0 0 1-2-2 2 2 0 0 1 2-2 2 2 0 0 1 2 2v2H9zm0 1a2 2 0 0 1 2 2 2 2 0 0 1-2 2H4a2 2 0 0 1-2-2 2 2 0 0 1 2-2h5zm8 2a2 2 0 0 1 2-2 2 2 0 0 1 2 2 2 2 0 0 1-2 2h-2v-2zm-1 0a2 2 0 0 1-2 2 2 2 0 0 1-2-2V5a2 2 0 0 1 2-2 2 2 0 0 1 2 2v5zm-2 8a2 2 0 0 1 2 2 2 2 0 0 1-2 2 2 2 0 0 1-2-2v-2h2zm0-1a2 2 0 0 1-2-2 2 2 0 0 1 2-2h5a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-5z"/></svg>슬랙 원문 보기</a></div></div></div><a href="https://wadiz.slack.com/archives/D0B5E7HAY0M/p1781490557230929" target="_blank" class="slack-link"><svg viewBox="0 0 24 24" fill="currentColor" style="width:12px;height:12px;flex-shrink:0"><path d="M6 15a2 2 0 0 1-2 2 2 2 0 0 1-2-2 2 2 0 0 1 2-2h2v2zm1 0a2 2 0 0 1 2-2 2 2 0 0 1 2 2v5a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-5zm2-8a2 2 0 0 1-2-2 2 2 0 0 1 2-2 2 2 0 0 1 2 2v2H9zm0 1a2 2 0 0 1 2 2 2 2 0 0 1-2 2H4a2 2 0 0 1-2-2 2 2 0 0 1 2-2h5zm8 2a2 2 0 0 1 2-2 2 2 0 0 1 2 2 2 2 0 0 1-2 2h-2v-2zm-1 0a2 2 0 0 1-2 2 2 2 0 0 1-2-2V5a2 2 0 0 1 2-2 2 2 0 0 1 2 2v5zm-2 8a2 2 0 0 1 2 2 2 2 0 0 1-2 2 2 2 0 0 1-2-2v-2h2zm0-1a2 2 0 0 1-2-2 2 2 0 0 1 2-2h5a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-5z"/></svg>슬랙 원문 보기</a></div>
+<div class="case-box"><strong>동영상 소재 파일 처리 오류 (408990)</strong><div class="qa-wrap"><div class="qa-item"><div class="qa-q"><span class="qa-q-badge">내용</span><span>내용📥 문의메이커가 등록한 동영상 소재에서 파일 처리 오류 발생. 광고 정상 집행 불가 상태.💬 처리 (김효성)비즈센터에 이미 저장된 동영상 소재는 연동 불가 소재로 인식됨. 소재 삭제 후 으로 새 파일 업로드. 파일 선택으로 기존 파일 불러오면 메타 연동 불가.</span></div></div></div><a href="https://wadiz.slack.com/archives/D0BC8K3EYKT/p1782116165363309" target="_blank" class="slack-link"><svg viewBox="0 0 24 24" fill="currentColor" style="width:12px;height:12px;flex-shrink:0"><path d="M6 15a2 2 0 0 1-2 2 2 2 0 0 1-2-2 2 2 0 0 1 2-2h2v2zm1 0a2 2 0 0 1 2-2 2 2 0 0 1 2 2v5a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-5zm2-8a2 2 0 0 1-2-2 2 2 0 0 1 2-2 2 2 0 0 1 2 2v2H9zm0 1a2 2 0 0 1 2 2 2 2 0 0 1-2 2H4a2 2 0 0 1-2-2 2 2 0 0 1 2-2h5zm8 2a2 2 0 0 1 2-2 2 2 0 0 1 2 2 2 2 0 0 1-2 2h-2v-2zm-1 0a2 2 0 0 1-2 2 2 2 0 0 1-2-2V5a2 2 0 0 1 2-2 2 2 0 0 1 2 2v5zm-2 8a2 2 0 0 1 2 2 2 2 0 0 1-2 2 2 2 0 0 1-2-2v-2h2zm0-1a2 2 0 0 1-2-2 2 2 0 0 1 2-2h5a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-5z"/></svg>슬랙 원문 보기</a></div></div></div></div>`},
+
+{tab:'creative',tag:'소재',tc:'#E17055',sc:false,
+ q:'비즈센터-메타 소재 상태 불일치 처리 / 소재 추가 시 업로드 방법',
+ kw:['불일치','소재','메타','동기화','상태','ON','OFF','소재업로드','파일선택'],
+ sum:'동기화 주기: 0/3/6/9/12시 3시간. 소진금액 최우선 확인. 소재 추가 시 반드시 "소재 업로드" 버튼 사용(파일 선택 불가).',
+ g:`<div class="info"><i class="ti ti-clock"></i>동기화 주기: 0/3/6/9/12시 3시간.</div><div class="steps"><div class="step"><div class="sn" style="background:#E17055">1</div><span>소진금액 최우선 확인</span></div><div class="step"><div class="sn" style="background:#E17055">2</div><span>메타 광고관리자 > 소재 > 우측 <strong>시계 아이콘</strong> → 이력 확인</span></div></div><div class="dvd"></div><div class="steps"><div class="step"><div class="sn" style="background:#1ABFA1">✓</div><span><strong>소진 정상 + 동기화</strong> → 이슈 클로즈</span></div><div class="step"><div class="sn" style="background:#E8003D">!</div><span><strong>비정상 소진</strong> → 은영프로님 즉시 태그</span></div></div><div class="dvd"></div><div class="warn"><i class="ti ti-alert-triangle"></i>소재 추가 시 반드시 <strong>'소재 업로드'</strong> 버튼으로 새 파일 업로드. '파일 선택'으로 기존 파일 불러오면 메타 연동 불가.</div><div class="dvd"></div><div class="sl">소재 OFF인데 메타 라이브 처리</div><div class="steps"><div class="step"><div class="sn" style="background:#E17055">1</div><span>메타 광고관리자 접속 → 해당 소재 직접 OFF 처리</span></div><div class="step"><div class="sn" style="background:#636e72">↗</div><span>반복 발생 시 → 개발팀(박경원) 보고</span></div></div>`,
+ c:null},
+
+{tab:'creative',tag:'소재',tc:'#E17055',sc:true,
+ q:'AI 소재 검수 오반려 — 수기 검수 요청 절차',
+ kw:['AI','소재','검수','반려','수기','오반려','주류','종교','이전캠페인','처리중오류'],
+ sum:'이전 캠페인에서 문제없던 소재, 주류/종교 등 명백한 오인 반려 시 수기 검수 요청 가능. AI 반려 후 "처리 중 오류 발생" 시 검수요청 버튼 재클릭으로 재검수 진행.',
+ g:`<div class="sl">수기 검수 요청 대상</div><div class="steps"><div class="step"><div class="sn" style="background:#E17055">1</div><span>이전 캠페인에서 문제없이 통과된 동일 소재가 AI 반려된 경우</span></div><div class="step"><div class="sn" style="background:#E17055">2</div><span>비속어/마약 유사 표현 없는데 AI 반려된 경우</span></div><div class="step"><div class="sn" style="background:#E17055">3</div><span>주류광고로 오인, 종교 포교로 오인 등 명백한 오반려</span></div></div><div class="info"><i class="ti ti-info-circle"></i>AI 반려 후 "처리 중 오류 발생" → 검수요청 버튼 다시 클릭 시 AI 재검수 진행됨. (유현나 공지)</div>`,
+ c:`<div class="case-box"><strong>주류광고 오인 반려 (디앤디컴, 399293)</strong><div class="qa-wrap"><div class="qa-item"><div class="qa-q"><span class="qa-q-badge">내용</span><span>내용📥 문의 (김소연)풀메탈 냉장고입니다. 제품과 함께 찍힌 캔맥 때문에 반려되었는데 주류 제품이 아니며 오픈예정 메타 광고에서 문제없게 진행된 부분이라 수기 승인 부탁드리겠습니다.💬 처리수기 검수 승인 처리 완료.</span></div></div></div><a href="https://wadiz.slack.com/archives/C043L2JV60G/p1775634018174409" target="_blank" class="slack-link"><svg viewBox="0 0 24 24" fill="currentColor" style="width:12px;height:12px;flex-shrink:0"><path d="M6 15a2 2 0 0 1-2 2 2 2 0 0 1-2-2 2 2 0 0 1 2-2h2v2zm1 0a2 2 0 0 1 2-2 2 2 0 0 1 2 2v5a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-5zm2-8a2 2 0 0 1-2-2 2 2 0 0 1 2-2 2 2 0 0 1 2 2v2H9zm0 1a2 2 0 0 1 2 2 2 2 0 0 1-2 2H4a2 2 0 0 1-2-2 2 2 0 0 1 2-2h5zm8 2a2 2 0 0 1 2-2 2 2 0 0 1 2 2 2 2 0 0 1-2 2h-2v-2zm-1 0a2 2 0 0 1-2 2 2 2 0 0 1-2-2V5a2 2 0 0 1 2-2 2 2 0 0 1 2 2v5zm-2 8a2 2 0 0 1 2 2 2 2 0 0 1-2 2 2 2 0 0 1-2-2v-2h2zm0-1a2 2 0 0 1-2-2 2 2 0 0 1 2-2h5a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-5z"/></svg>슬랙 원문 보기</a></div></div></div></div>
+<div class="case-box"><strong>종교 포교 오반려 (407126, 송영진)</strong><div class="qa-wrap"><div class="qa-item"><div class="qa-q"><span class="qa-q-badge">내용</span><span>내용📥 문의"나랑 같이 불교하자" 문구가 종교 포교로 반려됨. 해당 프로젝트는 불교 문화를 현대적으로 재해석한 굿즈/명상 아이템으로 포교 목적 아님.💬 처리수기 검수 승인 완료.</span></div></div></div><a href="https://wadiz.slack.com/archives/C043L2JV60G/p1781839751860109" target="_blank" class="slack-link"><svg viewBox="0 0 24 24" fill="currentColor" style="width:12px;height:12px;flex-shrink:0"><path d="M6 15a2 2 0 0 1-2 2 2 2 0 0 1-2-2 2 2 0 0 1 2-2h2v2zm1 0a2 2 0 0 1 2-2 2 2 0 0 1 2 2v5a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-5zm2-8a2 2 0 0 1-2-2 2 2 0 0 1 2-2 2 2 0 0 1 2 2v2H9zm0 1a2 2 0 0 1 2 2 2 2 0 0 1-2 2H4a2 2 0 0 1-2-2 2 2 0 0 1 2-2h5zm8 2a2 2 0 0 1 2-2 2 2 0 0 1 2 2 2 2 0 0 1-2 2h-2v-2zm-1 0a2 2 0 0 1-2 2 2 2 0 0 1-2-2V5a2 2 0 0 1 2-2 2 2 0 0 1 2 2v5zm-2 8a2 2 0 0 1 2 2 2 2 0 0 1-2 2 2 2 0 0 1-2-2v-2h2zm0-1a2 2 0 0 1-2-2 2 2 0 0 1 2-2h5a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-5z"/></svg>슬랙 원문 보기</a></div></div></div></div>`},
+
+{tab:'creative',tag:'소재',tc:'#E17055',sc:true,
+ q:'글로벌 캠페인 — 한글 10% 이상 포함 시 AI 반려 / 한글 없는데 반려',
+ kw:['글로벌','캠페인','한글','10%','반려','정책','싱가포르','대만'],
+ sum:'글로벌 캠페인 소재에 한글 10% 이상 포함 시 AI 심사 반려. 현재 싱가포르·대만 타겟 가능. 한글 없는데 반려 시 개발팀 확인.',
+ g:`<div class="warn"><i class="ti ti-alert-triangle"></i>글로벌 캠페인 소재에 <strong>한글 10% 이상 포함 시 AI 심사 반려</strong>.</div><div class="info"><i class="ti ti-info-circle"></i>현재 싱가포르, 대만 타겟 가능.</div><div class="steps"><div class="step"><div class="sn" style="background:#E17055">1</div><span>소재 내 한글 비율 10% 미만으로 제작 안내</span></div><div class="step"><div class="sn" style="background:#E17055">2</div><span>한글 없는데 반려된 경우 → 개발팀(박경원)에 캠페인ID + 소재ID 전달</span></div></div>`,
+ c:`<div class="case-box"><strong>글로벌 캠페인 한글 없는데 반려 케이스 (안소연 → 개발팀)</strong><div class="qa-wrap"><div class="qa-item"><div class="qa-q"><span class="qa-q-badge">내용</span><span>내용📥 문의 (안소연)비즈센터 글로벌 캠페인에 한글 1도 없는데 한글 과다로 반려되어 제보드립니다. 캠페인 ID: 14423312748💬 처리 (개발팀)확인 및 처리 완료.</span></div></div></div><a href="https://wadiz.slack.com/archives/C044A0AMGQ0/p1778837299918699" target="_blank" class="slack-link"><svg viewBox="0 0 24 24" fill="currentColor" style="width:12px;height:12px;flex-shrink:0"><path d="M6 15a2 2 0 0 1-2 2 2 2 0 0 1-2-2 2 2 0 0 1 2-2h2v2zm1 0a2 2 0 0 1 2-2 2 2 0 0 1 2 2v5a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-5zm2-8a2 2 0 0 1-2-2 2 2 0 0 1 2-2 2 2 0 0 1 2 2v2H9zm0 1a2 2 0 0 1 2 2 2 2 0 0 1-2 2H4a2 2 0 0 1-2-2 2 2 0 0 1 2-2h5zm8 2a2 2 0 0 1 2-2 2 2 0 0 1 2 2 2 2 0 0 1-2 2h-2v-2zm-1 0a2 2 0 0 1-2 2 2 2 0 0 1-2-2V5a2 2 0 0 1 2-2 2 2 0 0 1 2 2v5zm-2 8a2 2 0 0 1 2 2 2 2 0 0 1-2 2 2 2 0 0 1-2-2v-2h2zm0-1a2 2 0 0 1-2-2 2 2 0 0 1 2-2h5a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-5z"/></svg>슬랙 원문 보기</a></div></div></div></div>`},
+
+// ── 비즈머니 ──
+{tab:'budget',tag:'비즈머니',tc:'#00B894',sc:false,
+ q:'신용카드 매출전표 재발급',
+ kw:['매출전표','신용카드','재발급','토스페이먼츠','부가세'],
+ sum:'토스페이먼츠에서 담당자 직접 조회 후 링크 전달. 카드 매출전표는 부가세 매입 증빙 불가.',
+ g:`<div class="warn"><i class="ti ti-alert-triangle"></i>카드 매출전표는 부가세 매입 증빙 불가. 광고비 세금계산서를 매입 증빙으로 사용.</div><div class="steps"><div class="step"><div class="sn" style="background:#00B894">1</div><span>메이커에게 날짜·금액 확인</span></div><div class="step"><div class="sn" style="background:#00B894">2</div><span><strong>토스페이먼츠</strong> → 동일 결제건 조회 → 링크 전달</span></div></div>`,
+ c:null},
+
+{tab:'budget',tag:'비즈머니',tc:'#00B894',sc:true,
+ q:'충전사업자번호 변경 조건 및 절차',
+ kw:['충전사업자번호','변경','0원','조건','캠페인','설정'],
+ sum:'변경 조건: 비즈머니 잔액 0원 + 진행 중 캠페인 없음 + 환불요청 없음. 저장 버튼 클릭 시 무상 비즈머니가 지급되는 케이스 있으니 저장 후 현황 확인 필요.',
+ g:`<div class="warn"><i class="ti ti-alert-triangle"></i>충전사업자번호 변경 조건 3가지 모두 충족 필요</div><div class="steps"><div class="step"><div class="sn" style="background:#00B894">1</div><span>비즈머니 잔액 <strong>0원</strong> (쿠폰 포함)</span></div><div class="step"><div class="sn" style="background:#00B894">2</div><span>진행 중인 캠페인 없음</span></div><div class="step"><div class="sn" style="background:#00B894">3</div><span>진행 중인 환불 요청 없음</span></div></div><div class="path-row">설정 탭 → 충전사업자번호 선택 → [저장]</div>`,
+ c:`<div class="case-box"><strong>충전사업자번호 변경 케이스</strong><div class="qa-wrap"><div class="qa-item"><div class="qa-q"><span class="qa-q-badge">내용</span><span>내용📥 문의한 계정 안에서 여러 사업자번호로 프로젝트 진행 중인데 비즈머니 충전 시 충전사업자번호가 기존 번호로 뜨는 상황. 상관없을까요?💬 답변 (안소연)비즈머니 0원 만들기 → 설정 탭에서 사업자번호 선택 → 저장 → 충전 순서로 진행해 주세요.</span></div></div></div><a href="https://wadiz.slack.com/archives/C0733NLRBJA/p1778649739008029" target="_blank" class="slack-link">
+<svg viewBox="0 0 24 24" fill="currentColor" style="width:12px;height:12px"><path d="M6 15a2 2 0 0 1-2 2 2 2 0 0 1-2-2 2 2 0 0 1 2-2h2v2zm1 0a2 2 0 0 1 2-2 2 2 0 0 1 2 2v5a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-5zm2-8a2 2 0 0 1-2-2 2 2 0 0 1 2-2 2 2 0 0 1 2 2v2H9zm0 1a2 2 0 0 1 2 2 2 2 0 0 1-2 2H4a2 2 0 0 1-2-2 2 2 0 0 1 2-2h5zm8 2a2 2 0 0 1 2-2 2 2 0 0 1 2 2 2 2 0 0 1-2 2h-2v-2zm-1 0a2 2 0 0 1-2 2 2 2 0 0 1-2-2V5a2 2 0 0 1 2-2 2 2 0 0 1 2 2v5zm-2 8a2 2 0 0 1 2 2 2 2 0 0 1-2 2 2 2 0 0 1-2-2v-2h2zm0-1a2 2 0 0 1-2-2 2 2 0 0 1 2-2h5a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-5z"/></svg>슬랙 원문 보기</a></div></div></div><a href="https://wadiz.slack.com/archives/C08FGK55QAX/p1754984780737149" target="_blank" class="slack-link"><svg viewBox="0 0 24 24" fill="currentColor" style="width:12px;height:12px;flex-shrink:0"><path d="M6 15a2 2 0 0 1-2 2 2 2 0 0 1-2-2 2 2 0 0 1 2-2h2v2zm1 0a2 2 0 0 1 2-2 2 2 0 0 1 2 2v5a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-5zm2-8a2 2 0 0 1-2-2 2 2 0 0 1 2-2 2 2 0 0 1 2 2v2H9zm0 1a2 2 0 0 1 2 2 2 2 0 0 1-2 2H4a2 2 0 0 1-2-2 2 2 0 0 1 2-2h5zm8 2a2 2 0 0 1 2-2 2 2 0 0 1 2 2 2 2 0 0 1-2 2h-2v-2zm-1 0a2 2 0 0 1-2 2 2 2 0 0 1-2-2V5a2 2 0 0 1 2-2 2 2 0 0 1 2 2v5zm-2 8a2 2 0 0 1 2 2 2 2 0 0 1-2 2 2 2 0 0 1-2-2v-2h2zm0-1a2 2 0 0 1-2-2 2 2 0 0 1 2-2h5a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-5z"/></svg>슬랙 원문 보기</a></div>`},
+
+{tab:'budget',tag:'비즈머니',tc:'#00B894',sc:true,
+ q:'판촉비(무상 비즈머니) 지급 / 타겟광고에만 사용 가능 / Expert 요금제 지급 안 된 것처럼 보이는 케이스',
+ kw:['판촉비','무상','비즈머니','지급','14시','타겟광고','멀티보드','Expert','후불머니','회수'],
+ sum:'판촉비는 월~금 14시 접수건 당일 15시 이전 지급(2024.06.03부터 비즈센터 무상 비즈머니로 전환). 무상 비즈머니는 타겟광고 세팅에만 사용 가능(멀티보드 불가). Expert 요금제 메이커는 지급 안 된 것처럼 보이는 케이스 있음.',
+ g:`<div class="info"><i class="ti ti-clock"></i>월~금 14시 접수건 → 당일 15시 이전 지급 / 14시 이후 → 다음 영업일 지급</div><div class="warn"><i class="ti ti-alert-triangle"></i><strong>무상 비즈머니는 타겟광고 세팅에만 사용 가능.</strong> 멀티보드 등 내부 광고 세팅 불가.</div><div class="info"><i class="ti ti-info-circle"></i>Expert 요금제 + 후불머니로 캠페인 집행 시 충전사업자번호 저장 없이 세팅 가능 → 무상 비즈머니가 지급 안 된 것처럼 보임. 비즈머니 현황 탭에서 잔액 확인 안내.</div>`,
+ c:`<div class="case-box"><strong>류수지/이승열 메이커 (프로젝트 404646, 2026.06)</strong><div class="qa-wrap"><div class="qa-item"><div class="qa-q"><span class="qa-q-badge">내용</span><span>내용📥 문의 (류수지 PD)무상 비즈머니 100만원이 지급됐는데 멀티보드 등록에 필요한 금액 이상이 남아있는데도 세팅이 안 됩니다.💬 답변 (안소연)원칙적으로 무상 비즈머니로는 타겟광고만 등록 가능합니다. 멀티보드 등 내부 광고 세팅에는 사용 불가합니다.</span></div></div></div><a href="https://wadiz.slack.com/archives/C043L2JV60G/p1742866486884879" target="_blank" class="slack-link"><svg viewBox="0 0 24 24" fill="currentColor" style="width:12px;height:12px;flex-shrink:0"><path d="M6 15a2 2 0 0 1-2 2 2 2 0 0 1-2-2 2 2 0 0 1 2-2h2v2zm1 0a2 2 0 0 1 2-2 2 2 0 0 1 2 2v5a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-5zm2-8a2 2 0 0 1-2-2 2 2 0 0 1 2-2 2 2 0 0 1 2 2v2H9zm0 1a2 2 0 0 1 2 2 2 2 0 0 1-2 2H4a2 2 0 0 1-2-2 2 2 0 0 1 2-2h5zm8 2a2 2 0 0 1 2-2 2 2 0 0 1 2 2 2 2 0 0 1-2 2h-2v-2zm-1 0a2 2 0 0 1-2 2 2 2 0 0 1-2-2V5a2 2 0 0 1 2-2 2 2 0 0 1 2 2v5zm-2 8a2 2 0 0 1 2 2 2 2 0 0 1-2 2 2 2 0 0 1-2-2v-2h2zm0-1a2 2 0 0 1-2-2 2 2 0 0 1 2-2h5a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-5z"/></svg>슬랙 원문 보기</a></div></div></div></div>`},
+
+// ── 데이터·리포트 (통합) ──
+{tab:'data',tag:'리포트',tc:'#0984E3',sc:false,
+ q:'전환매출/ROAS가 실제 매출보다 높아요',
+ kw:['전환매출','ROAS','높다','간접전환','직접전환','메이커스튜디오'],
+ sum:'메타 기준 광고 클릭 후 1일(24시간) 이내 타 상품 구매도 집계. 메이커스튜디오(72시간 라스트클릭) vs 비즈센터(1일 메타 기여) 기준 차이 → 정상.',
+ g:`<div class="steps"><div class="step"><div class="sn" style="background:#0984E3">·</div><span><strong>메이커스튜디오</strong>: 72시간 라스트클릭</span></div><div class="step"><div class="sn" style="background:#0984E3">·</div><span><strong>비즈센터</strong>: 클릭 후 1일 메타 기여 성과</span></div></div><div class="ok"><i class="ti ti-check"></i>데이터 오류 아님. 집계 기준 차이에 따른 정상 결과.</div><div class="warn"><i class="ti ti-alert-triangle"></i>타 프로젝트 결제 포함 사전 고지 없음 → 메이커 항의 시 법무/정책팀 검토.</div>`,
+ c:null},
+
+{tab:'data',tag:'광고',tc:'#0984E3',sc:false,
+ q:'광고세트 머신러닝 진행률 표시 기준 (%, SUCCESS, Learning Limited, 100% 이상)',
+ kw:['머신러닝','숫자%','SUCCESS','100%','오류','Learning Limited','진행률'],
+ sum:'머신러닝 진행률은 이벤트 수 ÷ 50건 × 100. 100% 이상 표시는 화면 오류 — 실제 메타는 정상.',
+ g:`<div class="formula">머신러닝 진행률(%) = 이벤트 수 ÷ 50건 × 100</div><div class="steps"><div class="step"><div class="sn" style="background:#1877F2">%</div><span><strong>숫자%</strong> — 학습 중</span></div><div class="step"><div class="sn" style="background:#1ABFA1">✓</div><span><strong>SUCCESS</strong> — 학습 완료, 정상 운영 중</span></div><div class="step"><div class="sn" style="background:#E17055">!</div><span><strong>Learning Limited</strong> — 데이터 부족</span></div><div class="step"><div class="sn" style="background:#E8003D">⚠</div><span><strong>100% 이상 표시</strong> → 화면 표시 오류. 실제 메타는 정상 → 개발팀 보고</span></div></div>`,
+ c:null},
+
+{tab:'data',tag:'광고',tc:'#0984E3',sc:true,
+ q:'머신러닝 0% 표시 오류 / 광고세트 OFF 시 머신러닝 초기화',
+ kw:['머신러닝','0%','오류','광고세트','OFF','초기화','일시OFF','전환'],
+ sum:'머신러닝이 활동 중인데 0% 표시 → 화면 버그. 비즈센터에서 광고세트 OFF 시 신규 등록으로 인식되어 머신러닝 초기화됨 → OFF 필요 시 메타 광고관리자에서 직접 처리 권고.',
+ g:`<div class="steps"><div class="step"><div class="sn" style="background:#E8003D">1</div><span>0%인데 실제 전환 발생 중 → 화면 표시 버그 → 개발팀(박경원) 보고</span></div></div><div class="dvd"></div><div class="warn"><i class="ti ti-alert-triangle"></i>비즈센터에는 '일시 OFF' 개념 없음. 광고세트 OFF = 신규 등록(머신러닝 초기화). <strong>OFF 필요 시 메타 광고관리자에서 직접 처리 권고.</strong></div><div class="info"><i class="ti ti-info-circle"></i>소재(Material) OFF는 머신러닝 초기화 대상 아님.</div>`,
+ c:`<div class="case-box"><strong>머신러닝 0% 표시 오류 (안소연 확인)</strong><div class="qa-wrap"><div class="qa-item"><div class="qa-q"><span class="qa-q-badge">내용</span><span>내용📥 문의 (안소연 → 개발팀)일부 캠페인에서 머신러닝이 활동 중이며 실제로 전환이 발생했음에도 진행 상태가 0%로 표시되고 있습니다.💬 답변 (개발팀)화면 표시 오류로 확인. 실제 메타에서는 정상 진행 중.</span></div></div></div><a href="https://wadiz.slack.com/archives/C04HKQ3T7EE/p1778203578943719" target="_blank" class="slack-link"><svg viewBox="0 0 24 24" fill="currentColor" style="width:12px;height:12px;flex-shrink:0"><path d="M6 15a2 2 0 0 1-2 2 2 2 0 0 1-2-2 2 2 0 0 1 2-2h2v2zm1 0a2 2 0 0 1 2-2 2 2 0 0 1 2 2v5a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-5zm2-8a2 2 0 0 1-2-2 2 2 0 0 1 2-2 2 2 0 0 1 2 2v2H9zm0 1a2 2 0 0 1 2 2 2 2 0 0 1-2 2H4a2 2 0 0 1-2-2 2 2 0 0 1 2-2h5zm8 2a2 2 0 0 1 2-2 2 2 0 0 1 2 2 2 2 0 0 1-2 2h-2v-2zm-1 0a2 2 0 0 1-2 2 2 2 0 0 1-2-2V5a2 2 0 0 1 2-2 2 2 0 0 1 2 2v5zm-2 8a2 2 0 0 1 2 2 2 2 0 0 1-2 2 2 2 0 0 1-2-2v-2h2zm0-1a2 2 0 0 1-2-2 2 2 0 0 1 2-2h5a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-5z"/></svg>슬랙 원문 보기</a></div></div></div></div>
+<div class="case-box"><strong>광고세트 OFF 시 머신러닝 초기화 공지 (유현나)</strong><div class="qa-wrap"><div class="qa-item"><div class="qa-q"><span class="qa-q-badge">내용</span><span>내용📢 공지 (유현나)비즈센터에는 '일시 OFF' 개념이 없어 세트를 OFF하면 시스템상 신규 등록(타겟 재설정)으로 인식되는 문제 확인. 소재(Material) OFF는 머신러닝 초기화 대상 아님.</span></div></div></div><a href="https://wadiz.slack.com/archives/C01QXSB7LMD/p1764648846843179" target="_blank" class="slack-link"><svg viewBox="0 0 24 24" fill="currentColor" style="width:12px;height:12px;flex-shrink:0"><path d="M6 15a2 2 0 0 1-2 2 2 2 0 0 1-2-2 2 2 0 0 1 2-2h2v2zm1 0a2 2 0 0 1 2-2 2 2 0 0 1 2 2v5a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-5zm2-8a2 2 0 0 1-2-2 2 2 0 0 1 2-2 2 2 0 0 1 2 2v2H9zm0 1a2 2 0 0 1 2 2 2 2 0 0 1-2 2H4a2 2 0 0 1-2-2 2 2 0 0 1 2-2h5zm8 2a2 2 0 0 1 2-2 2 2 0 0 1 2 2 2 2 0 0 1-2 2h-2v-2zm-1 0a2 2 0 0 1-2 2 2 2 0 0 1-2-2V5a2 2 0 0 1 2-2 2 2 0 0 1 2 2v5zm-2 8a2 2 0 0 1 2 2 2 2 0 0 1-2 2 2 2 0 0 1-2-2v-2h2zm0-1a2 2 0 0 1-2-2 2 2 0 0 1 2-2h5a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-5z"/></svg>슬랙 원문 보기</a></div></div></div></div>`},
+
+{tab:'data',tag:'리포트',tc:'#0984E3',sc:true,
+ q:'비즈센터 데이터 누락 이슈 (특정 기간 데이터 0 집계)',
+ kw:['데이터','누락','이슈','비즈센터','리포트','0','집계'],
+ sum:'시스템 고도화 과정에서 발생한 오류로 일부 기간 데이터 이벤트 누락 — 누락된 기간 데이터는 기술적으로 복구 불가. 메타 광고관리자에서 직접 확인 안내.',
+ g:`<div class="warn"><i class="ti ti-alert-triangle"></i>누락된 기간의 비즈센터 데이터는 기술적으로 복구 불가. 메이커에게 메타 광고관리자에서 직접 확인 안내.</div>`,
+ c:`<div class="case-box"><strong>데이터 누락 공지 (유현나, 2025.10)</strong><div class="qa-wrap"><div class="qa-item"><div class="qa-q"><span class="qa-q-badge">내용</span><span>내용📢 공지 (유현나)시스템 고도화 과정에서 발생한 오류로 현재는 정상 조치 완료해 둔 상황입니다. 다만, 이미 누락된 기간의 비즈센터 데이터는 기술적으로 복구가 불가능한 것으로 확인됩니다. 해당 기간 데이터가 필요한 메이커님들께는 메타 광고관리자에서 직접 확인하시도록 안내 부탁드립니다.</span></div></div></div><a href="https://wadiz.slack.com/archives/C043L2JV60G/p1760578978790349" target="_blank" class="slack-link"><svg viewBox="0 0 24 24" fill="currentColor" style="width:12px;height:12px;flex-shrink:0"><path d="M6 15a2 2 0 0 1-2 2 2 2 0 0 1-2-2 2 2 0 0 1 2-2h2v2zm1 0a2 2 0 0 1 2-2 2 2 0 0 1 2 2v5a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-5zm2-8a2 2 0 0 1-2-2 2 2 0 0 1 2-2 2 2 0 0 1 2 2v2H9zm0 1a2 2 0 0 1 2 2 2 2 0 0 1-2 2H4a2 2 0 0 1-2-2 2 2 0 0 1 2-2h5zm8 2a2 2 0 0 1 2-2 2 2 0 0 1 2 2 2 2 0 0 1-2 2h-2v-2zm-1 0a2 2 0 0 1-2 2 2 2 0 0 1-2-2V5a2 2 0 0 1 2-2 2 2 0 0 1 2 2v5zm-2 8a2 2 0 0 1 2 2 2 2 0 0 1-2 2 2 2 0 0 1-2-2v-2h2zm0-1a2 2 0 0 1-2-2 2 2 0 0 1 2-2h5a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-5z"/></svg>슬랙 원문 보기</a></div></div></div></div>`},
+
+{tab:'system',tag:'시스템',tc:'#1ABFA1',sc:true,
+ q:'리타겟 광고세트 타겟 추가 후 기존 운영 캠페인에도 반영되는 이슈',
+ kw:['리타겟','광고세트','타겟','추가','기존','캠페인','반영','이슈','개발배포'],
+ sum:'개발 배포 이슈로 신규 캠페인에만 반영되어야 할 타겟이 기존 운영 중인 캠페인 리타겟 세트에도 추가 반영되는 현상 발생.',
+ g:`<div class="warn"><i class="ti ti-alert-triangle"></i>기존 운영 중인 캠페인 리타겟 세트에 의도치 않은 타겟이 추가된 경우 → 개발팀(박경원) 즉시 보고.</div><div class="steps"><div class="step"><div class="sn" style="background:#1ABFA1">1</div><span>영향받은 캠페인 목록 파악</span></div><div class="step"><div class="sn" style="background:#636e72">↗</div><span>개발팀 및 종정 프로님께 즉시 보고</span></div></div>`,
+ c:`<div class="case-box"><strong>리타겟 광고세트 타겟 추가 이슈 (유현나, 2025.07)</strong><div class="qa-wrap"><div class="qa-item"><div class="qa-q"><span class="qa-q-badge">내용</span><span>내용📢 공지 (유현나)전일 개발 배포 건이 있었는데요. 원래 리타겟 광고 세트 내 타겟 추가는 신규 라이브되는 캠페인에만 반영되어야 하나, 이번 이슈로 인해 기존 운영 중인 캠페인의 리타겟 광고 세트에도 타겟이 추가 반영되었습니다. 개발팀 즉시 보고 및 수정 조치 완료.</span></div></div></div><a href="https://wadiz.slack.com/archives/C043L2JV60G/p1752137857523399" target="_blank" class="slack-link"><svg viewBox="0 0 24 24" fill="currentColor" style="width:12px;height:12px;flex-shrink:0"><path d="M6 15a2 2 0 0 1-2 2 2 2 0 0 1-2-2 2 2 0 0 1 2-2h2v2zm1 0a2 2 0 0 1 2-2 2 2 0 0 1 2 2v5a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-5zm2-8a2 2 0 0 1-2-2 2 2 0 0 1 2-2 2 2 0 0 1 2 2v2H9zm0 1a2 2 0 0 1 2 2 2 2 0 0 1-2 2H4a2 2 0 0 1-2-2 2 2 0 0 1 2-2h5zm8 2a2 2 0 0 1 2-2 2 2 0 0 1 2 2 2 2 0 0 1-2 2h-2v-2zm-1 0a2 2 0 0 1-2 2 2 2 0 0 1-2-2V5a2 2 0 0 1 2-2 2 2 0 0 1 2 2v5zm-2 8a2 2 0 0 1 2 2 2 2 0 0 1-2 2 2 2 0 0 1-2-2v-2h2zm0-1a2 2 0 0 1-2-2 2 2 0 0 1 2-2h5a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-5z"/></svg>슬랙 원문 보기</a></div></div></div></div>`},
+
+// ── 계정·설정 ──
+{tab:'account',tag:'계정',tc:'#636e72',sc:false,
+ q:'쉐도우 로그인 및 미연동 계정 처리',
+ kw:['쉐도우','로그인','미연동','계정','메이커 로그인','필터 조회'],
+ sum:'비즈센터 관리자 우측 상단 [메이커 로그인]. 안 될 경우 계정 관리 > 필터 조회에서 미연동 계정 연동 처리.',
+ g:`<div class="path-row"><i class="ti ti-building-store"></i>비즈센터 관리자<span class="pa">›</span>우측 상단 [메이커 로그인]<span class="pa">›</span>메이커명 검색</div><div class="sl">미연동 계정 처리</div><div class="path-row"><i class="ti ti-building-store"></i>계정 관리<span class="pa">›</span>메이커 계정<span class="pa">›</span>[필터 조회]</div><div class="steps"><div class="step"><div class="sn" style="background:#636e72">1</div><span>메이커명 입력 → [조회]</span></div><div class="step"><div class="sn" style="background:#636e72">2</div><span>[추가] → 우측 선택 대상 확인</span></div><div class="step"><div class="sn" style="background:#636e72">3</div><span>[연동] 클릭 → 쉐도우 로그인 재시도</span></div></div>`,
+ c:null},
+
+{tab:'account',tag:'계정',tc:'#636e72',sc:true,
+ q:'비즈센터 로그인 오류 / 계정 설정 화면 고착 / 시스템 점검',
+ kw:['로그인','오류','접속','불가','계정설정','비밀번호','고착','시스템','점검','망분리'],
+ sum:'로그인 시 계정 설정 화면 고착, 비밀번호 오류 등 접속 불가 — 비밀번호 재설정 또는 망분리 가이드 확인. 시스템 점검 중에는 접속 자체가 불가.',
+ g:`<div class="steps"><div class="step"><div class="sn" style="background:#636e72">1</div><span>다른 브라우저 또는 시크릿 창에서 재시도</span></div><div class="step"><div class="sn" style="background:#636e72">2</div><span>비밀번호 재설정 후 재시도</span></div><div class="step"><div class="sn" style="background:#636e72">3</div><span>비즈센터 시스템 점검 공지 확인 (점검 중 접속 불가는 정상)</span></div><div class="step"><div class="sn" style="background:#636e72">↗</div><span>계속 불가 시 개발팀(박경원)에 계정ID, 오류 화면 스크린샷, 발생 시점 전달</span></div></div>`,
+ c:`<div class="case-box"><strong>비즈센터 로그인 고착 케이스</strong><div class="qa-wrap"><div class="qa-item"><div class="qa-q"><span class="qa-q-badge">내용</span><span>내용📥 문의 (윤민영)갑자기 계정 설정 화면이 보여지면서 20분째 접속을 못하고 있는데 새로 고침을 10번 넘게 눌러봐도 하기 화면 그대로 유지 중입니다.💬 처리 (이지수)망분리 관련 이슈일 수 있어 관련 가이드 공유. 비즈센터/통합광고 어드민 망분리 적용 일정 안내 및 VDI 설치 가이드 전달.</span></div></div></div><a href="https://wadiz.slack.com/archives/C04HKQ3T7EE/p1731294297294179" target="_blank" class="slack-link"><svg viewBox="0 0 24 24" fill="currentColor" style="width:12px;height:12px;flex-shrink:0"><path d="M6 15a2 2 0 0 1-2 2 2 2 0 0 1-2-2 2 2 0 0 1 2-2h2v2zm1 0a2 2 0 0 1 2-2 2 2 0 0 1 2 2v5a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-5zm2-8a2 2 0 0 1-2-2 2 2 0 0 1 2-2 2 2 0 0 1 2 2v2H9zm0 1a2 2 0 0 1 2 2 2 2 0 0 1-2 2H4a2 2 0 0 1-2-2 2 2 0 0 1 2-2h5zm8 2a2 2 0 0 1 2-2 2 2 0 0 1 2 2 2 2 0 0 1-2 2h-2v-2zm-1 0a2 2 0 0 1-2 2 2 2 0 0 1-2-2V5a2 2 0 0 1 2-2 2 2 0 0 1 2 2v5zm-2 8a2 2 0 0 1 2 2 2 2 0 0 1-2 2 2 2 0 0 1-2-2v-2h2zm0-1a2 2 0 0 1-2-2 2 2 0 0 1 2-2h5a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-5z"/></svg>슬랙 원문 보기</a></div></div></div></div>`},
+
+// ── 시스템·연동 (통합) ──
+{tab:'system',tag:'시스템',tc:'#1ABFA1',sc:true,
+ q:'API 연동 오류 / 유령 캠페인·소재 처리 / 메이커 공지 템플릿',
+ kw:['유령','캠페인','소재','API','연동','오류','메타','0원','소진','정산','공지','템플릿'],
+ sum:'API 연동 오류로 메타에만 존재하는 유령 캠페인/소재 발생. 소진 금액은 메이커 과금 없음 → 정산 내역서 0원 처리. 메타 API 오류 시 메이커 공지 템플릿 활용.',
+ g:`<div class="sl">유령 캠페인 처리</div><div class="steps"><div class="step"><div class="sn" style="background:#1ABFA1">1</div><span>비즈센터에서 소진금액 확인</span></div><div class="step"><div class="sn" style="background:#1ABFA1">2</div><span>메타 광고관리자에서 유령 캠페인 확인 후 삭제</span></div><div class="step"><div class="sn" style="background:#1ABFA1">3</div><span>소진 있을 경우 → +4일 뒤 금액 재안내</span></div></div><div class="info"><i class="ti ti-info-circle"></i>유령 캠페인 소진 금액은 메이커 과금 없음. 정산 내역서 0원 처리.</div><div class="dvd"></div><div class="sl">유령 소재 처리</div><div class="steps"><div class="step"><div class="sn" style="background:#1ABFA1">1</div><span>메타 광고관리자에서 해당 소재 확인 → 직접 삭제</span></div></div><div class="dvd"></div><div class="sl">메타 API 연동 오류 — 메이커 공지 템플릿</div><div class="info"><i class="ti ti-message-circle"></i>안녕하세요, 메이커님. 와디즈입니다. 현재 메타(Meta) 시스템 API 오류로 인해 소재 일부가 정상적으로 연동되지 않는 현상이 확인되어 안내드립니다. 해당 이슈는 데이터 전송 오류로, 캠페인의 머신러닝 학습 상태와는 무관하오니 안심하시기 바랍니다. 현재 와디즈 담당자와 Meta 담당자가 오류 해결을 위해 조치 중에 있으며 해결 즉시 추가 안내 드리겠습니다.</div>`,
+ c:`<div class="case-box"><strong>아이그린 (407626, 2026.02)</strong><div class="qa-wrap"><div class="qa-item"><div class="qa-q"><span class="qa-q-badge">내용</span><span>내용📥 상황비즈센터 연동 오류로 유령 캠페인 다수 생성 → 19,782원 소진. 메타에서 이미 삭제된 상태.💬 처리 (안소연)캠페인이 메타에서 이미 삭제된 상태라 개발 측에서 처리 불가. 해당 소진 금액은 메이커 과금 없으며 프로젝트 정산 내역서에서 0원 처리 예정입니다.</span></div></div></div><a href="https://wadiz.slack.com/archives/C044A0AMGQ0/p1781499384804459" target="_blank" class="slack-link">
+<svg viewBox="0 0 24 24" fill="currentColor" style="width:12px;height:12px"><path d="M6 15a2 2 0 0 1-2 2 2 2 0 0 1-2-2 2 2 0 0 1 2-2h2v2zm1 0a2 2 0 0 1 2-2 2 2 0 0 1 2 2v5a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-5zm2-8a2 2 0 0 1-2-2 2 2 0 0 1 2-2 2 2 0 0 1 2 2v2H9zm0 1a2 2 0 0 1 2 2 2 2 0 0 1-2 2H4a2 2 0 0 1-2-2 2 2 0 0 1 2-2h5zm8 2a2 2 0 0 1 2-2 2 2 0 0 1 2 2 2 2 0 0 1-2 2h-2v-2zm-1 0a2 2 0 0 1-2 2 2 2 0 0 1-2-2V5a2 2 0 0 1 2-2 2 2 0 0 1 2 2v5zm-2 8a2 2 0 0 1 2 2 2 2 0 0 1-2 2 2 2 0 0 1-2-2v-2h2zm0-1a2 2 0 0 1-2-2 2 2 0 0 1 2-2h5a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-5z"/></svg>슬랙 원문 보기</a></div></div></div><a href="https://wadiz.slack.com/archives/C04HKQ3T7EE/p1781239396869759" target="_blank" class="slack-link"><svg viewBox="0 0 24 24" fill="currentColor" style="width:12px;height:12px;flex-shrink:0"><path d="M6 15a2 2 0 0 1-2 2 2 2 0 0 1-2-2 2 2 0 0 1 2-2h2v2zm1 0a2 2 0 0 1 2-2 2 2 0 0 1 2 2v5a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-5zm2-8a2 2 0 0 1-2-2 2 2 0 0 1 2-2 2 2 0 0 1 2 2v2H9zm0 1a2 2 0 0 1 2 2 2 2 0 0 1-2 2H4a2 2 0 0 1-2-2 2 2 0 0 1 2-2h5zm8 2a2 2 0 0 1 2-2 2 2 0 0 1 2 2 2 2 0 0 1-2 2h-2v-2zm-1 0a2 2 0 0 1-2 2 2 2 0 0 1-2-2V5a2 2 0 0 1 2-2 2 2 0 0 1 2 2v5zm-2 8a2 2 0 0 1 2 2 2 2 0 0 1-2 2 2 2 0 0 1-2-2v-2h2zm0-1a2 2 0 0 1-2-2 2 2 0 0 1 2-2h5a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-5z"/></svg>슬랙 원문 보기</a></div>
+<div class="case-box"><strong>메타 API 연동 오류 공지 (2026, 김효성)</strong><div class="qa-wrap"><div class="qa-item"><div class="qa-q"><span class="qa-q-badge">내용</span><span>내용📢 공지 (김효성)현재 메타(Meta) 시스템 API 오류로 인해 일부 캠페인의 소재가 정상적으로 연동되지 않는 현상이 확인되어 안내드립니다. 현재 확인 및 해결 중에 있으니 잠시 기다려주시기 바랍니다.</span></div></div></div><a href="https://wadiz.slack.com/archives/C043L2JV60G/p1781253978935039" target="_blank" class="slack-link"><svg viewBox="0 0 24 24" fill="currentColor" style="width:12px;height:12px;flex-shrink:0"><path d="M6 15a2 2 0 0 1-2 2 2 2 0 0 1-2-2 2 2 0 0 1 2-2h2v2zm1 0a2 2 0 0 1 2-2 2 2 0 0 1 2 2v5a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-5zm2-8a2 2 0 0 1-2-2 2 2 0 0 1 2-2 2 2 0 0 1 2 2v2H9zm0 1a2 2 0 0 1 2 2 2 2 0 0 1-2 2H4a2 2 0 0 1-2-2 2 2 0 0 1 2-2h5zm8 2a2 2 0 0 1 2-2 2 2 0 0 1 2 2 2 2 0 0 1-2 2h-2v-2zm-1 0a2 2 0 0 1-2 2 2 2 0 0 1-2-2V5a2 2 0 0 1 2-2 2 2 0 0 1 2 2v5zm-2 8a2 2 0 0 1 2 2 2 2 0 0 1-2 2 2 2 0 0 1-2-2v-2h2zm0-1a2 2 0 0 1-2-2 2 2 0 0 1 2-2h5a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-5z"/></svg>슬랙 원문 보기</a></div></div></div></div>`},
+
+
+
+{tab:'refund',tag:'환불',tc:'#0984E3',sc:true,
+ q:'환불 신청 중 비즈머니 충전·소진 불가 / 환불 신청 취소 후 캠페인 세팅',
+ kw:['환불','신청중','충전','소진','불가','캠페인','세팅','불가'],
+ sum:'환불 신청 상태에서는 비즈머니 충전 및 소진 불가. 환불 취소 후 세팅 가능하나, 환불 취소는 개발팀 확인 필요.',
+ g:`<div class="warn"><i class="ti ti-alert-triangle"></i>"환불이 신청된 상태에서는 비즈머니를 충전 또는 소진할 수 없습니다."<br>환불 신청 취소 후 캠페인 세팅 가능.</div><div class="steps"><div class="step"><div class="sn" style="background:#0984E3">1</div><span>비즈센터 > 설정 > 환불신청 내역 확인</span></div><div class="step"><div class="sn" style="background:#0984E3">2</div><span>환불 신청 취소 필요 시 → 개발팀(박경원) 또는 관리자 직접 처리</span></div></div>`,
+ c:`<div class="case-box"><strong>환불 신청 후 광고 세팅 불가 케이스</strong><div class="qa-wrap"><div class="qa-item"><div class="qa-q"><span class="qa-q-badge">내용</span><span>내용📥 문의비즈머니 환불 신청을 해두었는데 광고를 새로 세팅하려니 "환불이 신청된 상태에서는 비즈머니를 충전 또는 소진할 수 없습니다."라는 문구가 노출되며 광고 등록이 불가능하다고 합니다. 금일 중으로 환불 신청 완료 및 세팅 진행이 가능할지 문의드립니다.💬 처리환불 신청 취소 처리 또는 환불 완료 후 재충전 안내.</span></div></div></div><a href="https://wadiz.slack.com/archives/C04HKQ3T7EE/p1782198112271859" target="_blank" class="slack-link"><svg viewBox="0 0 24 24" fill="currentColor" style="width:12px;height:12px;flex-shrink:0"><path d="M6 15a2 2 0 0 1-2 2 2 2 0 0 1-2-2 2 2 0 0 1 2-2h2v2zm1 0a2 2 0 0 1 2-2 2 2 0 0 1 2 2v5a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-5zm2-8a2 2 0 0 1-2-2 2 2 0 0 1 2-2 2 2 0 0 1 2 2v2H9zm0 1a2 2 0 0 1 2 2 2 2 0 0 1-2 2H4a2 2 0 0 1-2-2 2 2 0 0 1 2-2h5zm8 2a2 2 0 0 1 2-2 2 2 0 0 1 2 2 2 2 0 0 1-2 2h-2v-2zm-1 0a2 2 0 0 1-2 2 2 2 0 0 1-2-2V5a2 2 0 0 1 2-2 2 2 0 0 1 2 2v5zm-2 8a2 2 0 0 1 2 2 2 2 0 0 1-2 2 2 2 0 0 1-2-2v-2h2zm0-1a2 2 0 0 1-2-2 2 2 0 0 1 2-2h5a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-5z"/></svg>슬랙 원문 보기</a></div></div></div></div>`},
+
+
+{tab:'creative',tag:'소재',tc:'#E17055',sc:true,
+ q:'소재 반려 — 메타 "개인의 건강 및 외모" / "수익화·부가수익" 사유',
+ kw:['반려','개인의건강','외모','수익화','부가수익','뷰티','피부','수익','매출'],
+ sum:'메타 "개인의 건강 및 외모" 반려: 과도한 클로즈업, 피부 강조, 비현실적 결과 등. 뷰티 카테고리에서 빈번. 반려 사유 확인 후 소재 수정 재접수 요청. "수익화·부가수익" 반려: 리워드 가격 외 수익/매출 관련 워딩 사용 시 반려 — 삭제 후 재제작 필요.',
+ g:`<div class="sl">개인의 건강 및 외모 반려 대응</div><div class="steps"><div class="step"><div class="sn" style="background:#E17055">1</div><span>메타 광고관리자에서 반려 상세 사유 확인</span></div><div class="step"><div class="sn" style="background:#E17055">2</div><span>과도한 클로즈업, 피부 강조, Before&After 이미지 수정 요청</span></div><div class="step"><div class="sn" style="background:#E17055">3</div><span>수정 후 소재 재접수</span></div></div><div class="info"><i class="ti ti-info-circle"></i>와디즈 1차 검수에서 승인된 소재도 메타 2차 검수에서 반려될 수 있음. 기승인 소재도 정책 강화로 재반려 가능.</div><div class="dvd"></div><div class="sl">수익화·부가수익 관련 워딩 반려</div><div class="warn"><i class="ti ti-alert-triangle"></i>리워드 가격이 아닌 수익/매출/부가수익 관련 표현은 메타 정책상 소구 불가. 해당 워딩 삭제 후 소재 재제작 필요.</div>`,
+ c:`<div class="case-box"><strong>개인의 건강 및 외모 반려 케이스 (안소연 → 비검소재 채널)</strong><div class="qa-wrap"><div class="qa-item"><div class="qa-q"><span class="qa-q-badge">내용</span><span>내용📢 공지 (안소연)메타에서 <개인의 건강 및 외모> 반려 안내가 메일로 전달되었습니다. 메타에서 반려된 상세 사유가 필요하신 거라면 메일에도 안내되어 있듯, "상세 사유 확인은 영업일 기준 7~10일이 소요됩니다."📢 소재 반려 안내 문구 (명세린)해당 소재는 메타에서 <개인의 건강 및 외모> 사유로 사용이 불가한 소재에 해당되는 것으로 보입니다. 반려사유 및 대체표현 확인하시어 수정 후 재접수 부탁드립니다.</span></div></div></div><a href="https://wadiz.slack.com/archives/C04HKCL9SLW/p1708332016584699" target="_blank" class="slack-link"><svg viewBox="0 0 24 24" fill="currentColor" style="width:12px;height:12px;flex-shrink:0"><path d="M6 15a2 2 0 0 1-2 2 2 2 0 0 1-2-2 2 2 0 0 1 2-2h2v2zm1 0a2 2 0 0 1 2-2 2 2 0 0 1 2 2v5a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-5zm2-8a2 2 0 0 1-2-2 2 2 0 0 1 2-2 2 2 0 0 1 2 2v2H9zm0 1a2 2 0 0 1 2 2 2 2 0 0 1-2 2H4a2 2 0 0 1-2-2 2 2 0 0 1 2-2h5zm8 2a2 2 0 0 1 2-2 2 2 0 0 1 2 2 2 2 0 0 1-2 2h-2v-2zm-1 0a2 2 0 0 1-2 2 2 2 0 0 1-2-2V5a2 2 0 0 1 2-2 2 2 0 0 1 2 2v5zm-2 8a2 2 0 0 1 2 2 2 2 0 0 1-2 2 2 2 0 0 1-2-2v-2h2zm0-1a2 2 0 0 1-2-2 2 2 0 0 1 2-2h5a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-5z"/></svg>슬랙 원문 보기</a></div></div></div></div>
+<div class="case-box"><strong>수익화 반려 케이스 (이보라)</strong><div class="qa-wrap"><div class="qa-item"><div class="qa-q"><span class="qa-q-badge">내용</span><span>내용📥 문의 (이보라)광고 소재 심사 넣었는데 .부가수익, 수익화 반려 사유를 받았습니다. 수익 매출 언급하지 않았는데 해당 소재 사용 어려울까요?💬 답변 (안소연)메이커님, 강화된 가이드라인에 따라 리워드 가격이 아닌 이외의 수익, 매출 등 금전 관련 워딩은 소구 불가합니다.</span></div></div></div><a href="https://wadiz.slack.com/archives/C043L2JV60G/p1719974695704679" target="_blank" class="slack-link"><svg viewBox="0 0 24 24" fill="currentColor" style="width:12px;height:12px;flex-shrink:0"><path d="M6 15a2 2 0 0 1-2 2 2 2 0 0 1-2-2 2 2 0 0 1 2-2h2v2zm1 0a2 2 0 0 1 2-2 2 2 0 0 1 2 2v5a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-5zm2-8a2 2 0 0 1-2-2 2 2 0 0 1 2-2 2 2 0 0 1 2 2v2H9zm0 1a2 2 0 0 1 2 2 2 2 0 0 1-2 2H4a2 2 0 0 1-2-2 2 2 0 0 1 2-2h5zm8 2a2 2 0 0 1 2-2 2 2 0 0 1 2 2 2 2 0 0 1-2 2h-2v-2zm-1 0a2 2 0 0 1-2 2 2 2 0 0 1-2-2V5a2 2 0 0 1 2-2 2 2 0 0 1 2 2v5zm-2 8a2 2 0 0 1 2 2 2 2 0 0 1-2 2 2 2 0 0 1-2-2v-2h2zm0-1a2 2 0 0 1-2-2 2 2 0 0 1 2-2h5a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-5z"/></svg>슬랙 원문 보기</a></div></div></div></div>`},
+
+{tab:'creative',tag:'소재',tc:'#E17055',sc:true,
+ q:'소재 삭제 불가 / 삭제했는데 다시 살아남 / OFF 소재 삭제 시 옆 소재도 OFF',
+ kw:['소재','삭제','불가','살아남','OFF','삭제','오류','다시생김'],
+ sum:'소재 삭제 후 페이지 재방문 시 소재가 다시 살아나는 버그. OFF 소재 삭제 시 인접 소재도 OFF로 전환되는 이슈. 개발팀 요청 필요.',
+ g:`<div class="steps"><div class="step"><div class="sn" style="background:#E17055">1</div><span>소재 삭제 후 페이지 재방문 시 소재가 다시 노출되는 경우 확인</span></div><div class="step"><div class="sn" style="background:#E17055">2</div><span>메타 광고관리자에서 실제 삭제 여부 확인 (메타에서는 삭제되어 소진 없음)</span></div><div class="step"><div class="sn" style="background:#636e72">↗</div><span>개발팀(박경원) 캠페인ID + 소재ID 전달 → 강제 삭제 요청</span></div></div><div class="warn"><i class="ti ti-alert-triangle"></i>OFF 소재 삭제 시 인접한 다른 소재가 OFF로 전환되는 버그 있음. 삭제 전 영향 범위 확인 필요.</div>`,
+ c:`<div class="case-box"><strong>소재 삭제 불가 / 살아나는 버그 (안소연 → 개발팀)</strong><div class="qa-wrap"><div class="qa-item"><div class="qa-q"><span class="qa-q-badge">내용</span><span>내용📥 문의 (안소연)비즈센터 소재 삭제가 불가하여 해당 캠페인 소재 2개 삭제를 부탁드립니다. 캠페인ID: 10863922628📢 공지 (안소연)소재 관련하여 2가지 문의드릴 사항이 있습니다. ① OFF된 소재 삭제 → 광고 관리 화면 이탈 (또한, off한 소재(주황불)를 삭제하면 옆에 있던 다른 소재가 off로 전환되는 케이스) ② 삭제한 소재가 다시 살아남.</span></div></div></div><a href="https://wadiz.slack.com/archives/C04HKQ3T7EE/p1743128257093659" target="_blank" class="slack-link"><svg viewBox="0 0 24 24" fill="currentColor" style="width:12px;height:12px;flex-shrink:0"><path d="M6 15a2 2 0 0 1-2 2 2 2 0 0 1-2-2 2 2 0 0 1 2-2h2v2zm1 0a2 2 0 0 1 2-2 2 2 0 0 1 2 2v5a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-5zm2-8a2 2 0 0 1-2-2 2 2 0 0 1 2-2 2 2 0 0 1 2 2v2H9zm0 1a2 2 0 0 1 2 2 2 2 0 0 1-2 2H4a2 2 0 0 1-2-2 2 2 0 0 1 2-2h5zm8 2a2 2 0 0 1 2-2 2 2 0 0 1 2 2 2 2 0 0 1-2 2h-2v-2zm-1 0a2 2 0 0 1-2 2 2 2 0 0 1-2-2V5a2 2 0 0 1 2-2 2 2 0 0 1 2 2v5zm-2 8a2 2 0 0 1 2 2 2 2 0 0 1-2 2 2 2 0 0 1-2-2v-2h2zm0-1a2 2 0 0 1-2-2 2 2 0 0 1 2-2h5a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-5z"/></svg>슬랙 원문 보기</a></div></div></div></div>`},
+
+{tab:'campaign',tag:'캠페인',tc:'#E8003D',sc:true,
+ q:'소재 이미지 픽셀 600 이상 등록 불가 팝업',
+ kw:['소재','이미지','픽셀','600','등록','불가','팝업'],
+ sum:'소재 이미지가 픽셀 600 이상인 경우 등록 불가 팝업이 지속 노출되는 이슈. 개발팀 확인 필요.',
+ g:`<div class="steps"><div class="step"><div class="sn" style="background:#E8003D">1</div><span>해당 소재 이미지 픽셀 사이즈 확인</span></div><div class="step"><div class="sn" style="background:#E8003D">2</div><span>이미지 리사이징 후 재업로드 시도 안내</span></div><div class="step"><div class="sn" style="background:#636e72">↗</div><span>팝업 지속 노출 시 → 개발팀(박경원) 보고</span></div></div>`,
+ c:`<div class="case-box"><strong>픽셀 600 이상 소재 등록 불가 팝업 (송영진)</strong><div class="qa-wrap"><div class="qa-item"><div class="qa-q"><span class="qa-q-badge">내용</span><span>내용📥 문의 (송영진)프로젝트 396485건 비즈센터 광고 등록이 안 되는 상황입니다. 해당 픽셀 600 이상의 소재인 것을 확인했는데, 해당 창이 지속적으로 뜨고 있습니다! 해결 방법이 있을까요?</span></div></div></div><a href="https://wadiz.slack.com/archives/C043L2JV60G/p1775461782168749" target="_blank" class="slack-link"><svg viewBox="0 0 24 24" fill="currentColor" style="width:12px;height:12px;flex-shrink:0"><path d="M6 15a2 2 0 0 1-2 2 2 2 0 0 1-2-2 2 2 0 0 1 2-2h2v2zm1 0a2 2 0 0 1 2-2 2 2 0 0 1 2 2v5a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-5zm2-8a2 2 0 0 1-2-2 2 2 0 0 1 2-2 2 2 0 0 1 2 2v2H9zm0 1a2 2 0 0 1 2 2 2 2 0 0 1-2 2H4a2 2 0 0 1-2-2 2 2 0 0 1 2-2h5zm8 2a2 2 0 0 1 2-2 2 2 0 0 1 2 2 2 2 0 0 1-2 2h-2v-2zm-1 0a2 2 0 0 1-2 2 2 2 0 0 1-2-2V5a2 2 0 0 1 2-2 2 2 0 0 1 2 2v5zm-2 8a2 2 0 0 1 2 2 2 2 0 0 1-2 2 2 2 0 0 1-2-2v-2h2zm0-1a2 2 0 0 1-2-2 2 2 0 0 1 2-2h5a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-5z"/></svg>슬랙 원문 보기</a></div></div></div></div>`},
+
+{tab:'payment',tag:'후불결제',tc:'#6C5CE7',sc:true,
+ q:'후불결제로 집행 중인 캠페인을 비즈머니로 전환 요청',
+ kw:['후불결제','비즈머니','전환','변경','캠페인'],
+ sum:'후불결제로 집행 중인 캠페인을 비즈머니로 변경 요청하는 케이스. 정산팀 및 개발팀 확인 필요. 마이너스 정산 처리 별도 진행.',
+ g:`<div class="steps"><div class="step"><div class="sn" style="background:#6C5CE7">1</div><span>후불결제 → 비즈머니 전환 가능 여부 개발팀(박경원) 확인</span></div><div class="step"><div class="sn" style="background:#6C5CE7">2</div><span>기집행된 후불결제 금액에 대한 마이너스 정산 처리 정산팀 협의</span></div></div><div class="info"><i class="ti ti-info-circle"></i>원칙적으로 집행 중인 캠페인의 결제 수단 변경은 불가. 캠페인 종료 후 신규 캠페인으로 비즈머니 세팅 권고.</div>`,
+ c:`<div class="case-box"><strong>후불결제 → 비즈머니 전환 케이스 (홍수희)</strong><div class="qa-wrap"><div class="qa-item"><div class="qa-q"><span class="qa-q-badge">내용</span><span>내용📥 문의 (홍수희)6/1 미발송된 400349 신즈(캠페인 2074) 건 후불결제로 되었는데 비즈머니로 하고 싶다고 해서요.... 2074 후불결제 마이너스 정산 부탁드립니다..💬 처리신규 캠페인 생성해서 비즈머니로 다시 받겠습니다... 후불결제 마이너스 정산 진행.</span></div></div></div><a href="https://wadiz.slack.com/archives/C01QXSB7LMD/p1780379864208269" target="_blank" class="slack-link"><svg viewBox="0 0 24 24" fill="currentColor" style="width:12px;height:12px;flex-shrink:0"><path d="M6 15a2 2 0 0 1-2 2 2 2 0 0 1-2-2 2 2 0 0 1 2-2h2v2zm1 0a2 2 0 0 1 2-2 2 2 0 0 1 2 2v5a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-5zm2-8a2 2 0 0 1-2-2 2 2 0 0 1 2-2 2 2 0 0 1 2 2v2H9zm0 1a2 2 0 0 1 2 2 2 2 0 0 1-2 2H4a2 2 0 0 1-2-2 2 2 0 0 1 2-2h5zm8 2a2 2 0 0 1 2-2 2 2 0 0 1 2 2 2 2 0 0 1-2 2h-2v-2zm-1 0a2 2 0 0 1-2 2 2 2 0 0 1-2-2V5a2 2 0 0 1 2-2 2 2 0 0 1 2 2v5zm-2 8a2 2 0 0 1 2 2 2 2 0 0 1-2 2 2 2 0 0 1-2-2v-2h2zm0-1a2 2 0 0 1-2-2 2 2 0 0 1 2-2h5a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-5z"/></svg>슬랙 원문 보기</a></div></div></div></div>`},
+
+
+{tab:'data',tag:'리포트',tc:'#0984E3',sc:true,
+ q:'세금계산서 발행 기준 및 절차 — 충전금액이 아닌 소진금액 기준',
+ kw:['세금계산서','발행','소진금액','충전금액','이메일','목요일','금요일','광고비'],
+ sum:'세금계산서는 소진금액(실제 광고 집행 금액) 기준으로 발행. 충전금액 기준 아님. 광고 집행일 기준 +4일 후 확정, 매월 1일~말일 합산 후 목~금요일 발행.',
+ g:`<div class="sl">세금계산서 발행 기준</div><div class="info"><i class="ti ti-info-circle"></i><strong>비즈머니 충전금액이 아닌 실제 소진(집행) 금액 기준으로 발행</strong><br>비즈센터 &gt; 비즈머니 &gt; 이용내역에서 상세 확인 가능</div><div class="steps"><div class="step"><div class="sn" style="background:#0984E3">1</div><span>광고 집행일 기준 <strong>+4일 후</strong> 금액 확정</span></div><div class="step"><div class="sn" style="background:#0984E3">2</div><span>매월 1일~말일 소진금액 합산</span></div><div class="step"><div class="sn" style="background:#0984E3">3</div><span>목~금요일 세금계산서 발행</span></div></div><div class="warn"><i class="ti ti-alert-triangle"></i>이메일 미기재 건 → 수동 이메일 기재 후 재발행 필요. 발행 대상 중 이메일 누락 건 주간 확인 필수.</div>`,
+ c:`<div class="case-box"><strong>세금계산서 발행 프로세스 정리 (정은영)</strong><div class="qa-wrap"><div class="qa-item"><div class="qa-q"><span class="qa-q-badge">내용</span><span>내용📢 정리 (정은영)광고 세금계산서 발행 프로세스 요약: ① 매체별 금액 확정 시점 — 광고센터(내부광고): 광고 집행일 기준 +1일 후 확정 / 비즈센터(타겟광고): 광고 집행일 기준 +4일 뒤 확정 ② 세금계산서 발행 기준 및 일정 — 합산 기간: 매월 1일 ~ 말일 / 발행 일정: 매주 목~금요일 발행💡 추가 안내 (임초롱)비즈머니 세금계산서 발행 관련 캠페인 종료 후 4일 지난 후 매주 목~금요일 발행된다고 하지만 실질적으로 적혀 있는 날짜에 발행되는 경우가 거의 없습니다. 이용가이드 수정이나 세금계산서 발행 당기거나 해야</span></div></div></div><a href="https://wadiz.slack.com/archives/C043L2JV60G/p1780895557725699" target="_blank" class="slack-link"><svg viewBox="0 0 24 24" fill="currentColor" style="width:12px;height:12px;flex-shrink:0"><path d="M6 15a2 2 0 0 1-2 2 2 2 0 0 1-2-2 2 2 0 0 1 2-2h2v2zm1 0a2 2 0 0 1 2-2 2 2 0 0 1 2 2v5a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-5zm2-8a2 2 0 0 1-2-2 2 2 0 0 1 2-2 2 2 0 0 1 2 2v2H9zm0 1a2 2 0 0 1 2 2 2 2 0 0 1-2 2H4a2 2 0 0 1-2-2 2 2 0 0 1 2-2h5zm8 2a2 2 0 0 1 2-2 2 2 0 0 1 2 2 2 2 0 0 1-2 2h-2v-2zm-1 0a2 2 0 0 1-2 2 2 2 0 0 1-2-2V5a2 2 0 0 1 2-2 2 2 0 0 1 2 2v5zm-2 8a2 2 0 0 1 2 2 2 2 0 0 1-2 2 2 2 0 0 1-2-2v-2h2zm0-1a2 2 0 0 1-2-2 2 2 0 0 1 2-2h5a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-5z"/></svg>슬랙 원문 보기</a></div></div></div></div>`},
+
+{tab:'campaign',tag:'캠페인',tc:'#E8003D',sc:true,
+ q:'비즈센터 캠페인 시작 시간 변경 후 메타에 다른 날짜로 반영되는 이슈',
+ kw:['캠페인','시작시간','start time','메타','다르게','반영','이슈'],
+ sum:'비즈센터에서 캠페인 시작 시간을 변경했는데 메타 광고관리자에서는 다른 날짜/시간으로 세팅되어 있는 이슈 — 개발팀 확인 필요.',
+ g:`<div class="steps"><div class="step"><div class="sn" style="background:#E8003D">1</div><span>비즈센터 캠페인 시작 시간과 메타 광고관리자 시작 시간 비교</span></div><div class="step"><div class="sn" style="background:#E8003D">2</div><span>불일치 확인 시 → 개발팀(박경원)에 캠페인ID, 설정한 시간, 메타에 반영된 시간 전달</span></div></div><div class="info"><i class="ti ti-info-circle"></i>비즈센터에서 시간 변경 후 메타 반영까지 약 1~2시간 소요될 수 있음. 변경 직후에는 동기화 대기 필요.</div>`,
+ c:`<div class="case-box"><strong>캠페인 start time 메타 불일치 케이스 (이지수 → 개발팀)</strong><div class="qa-wrap"><div class="qa-item"><div class="qa-q"><span class="qa-q-badge">내용</span><span>내용📥 문의 (이지수)비즈센터 캠페인 start time을 최종적으로 6월 4일 19:50으로 변경했으나, 실제 메타 내에서 6월 6일 시작으로 세팅되어 있어 확인 부탁드립니다. 관련 이미지 댓글로 첨부드립니다. 캠페인 ID: 14645702353</span></div></div></div><a href="https://wadiz.slack.com/archives/C04HKQ3T7EE/p1780627761133499" target="_blank" class="slack-link"><svg viewBox="0 0 24 24" fill="currentColor" style="width:12px;height:12px;flex-shrink:0"><path d="M6 15a2 2 0 0 1-2 2 2 2 0 0 1-2-2 2 2 0 0 1 2-2h2v2zm1 0a2 2 0 0 1 2-2 2 2 0 0 1 2 2v5a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-5zm2-8a2 2 0 0 1-2-2 2 2 0 0 1 2-2 2 2 0 0 1 2 2v2H9zm0 1a2 2 0 0 1 2 2 2 2 0 0 1-2 2H4a2 2 0 0 1-2-2 2 2 0 0 1 2-2h5zm8 2a2 2 0 0 1 2-2 2 2 0 0 1 2 2 2 2 0 0 1-2 2h-2v-2zm-1 0a2 2 0 0 1-2 2 2 2 0 0 1-2-2V5a2 2 0 0 1 2-2 2 2 0 0 1 2 2v5zm-2 8a2 2 0 0 1 2 2 2 2 0 0 1-2 2 2 2 0 0 1-2-2v-2h2zm0-1a2 2 0 0 1-2-2 2 2 0 0 1 2-2h5a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-5z"/></svg>슬랙 원문 보기</a></div></div></div></div>`},
+
+{tab:'budget',tag:'비즈머니',tc:'#00B894',sc:true,
+ q:'쿠폰비(무상비즈머니) 충전 후 캠페인 라이브 시 유상비즈머니 먼저 소진되는 이슈',
+ kw:['쿠폰비','무상비즈머니','유상비즈머니','소진순서','먼저','쿠폰'],
+ sum:'쿠폰비(무상비즈머니) 충전 후 캠페인 라이브 시 쿠폰비 먼저 소진되어야 하는데 예치금 유상비즈머니가 먼저 소진되는 이슈 — 개발팀 확인 결과 예치금(유상비즈머니)이 먼저 소진되는 정상 로직.',
+ g:`<div class="info"><i class="ti ti-info-circle"></i>비즈센터 소진 순서: <strong>예치금(유상비즈머니) → 쿠폰비(무상비즈머니)</strong> 순으로 소진. 쿠폰비가 먼저 소진되는 게 아님.</div><div class="warn"><i class="ti ti-alert-triangle"></i>쿠폰비(무상비즈머니)를 먼저 소진하려면 유상비즈머니가 없어야 함.</div>`,
+ c:`<div class="case-box"><strong>쿠폰비 소진 순서 이슈 (이지수 → 개발팀)</strong><div class="qa-wrap"><div class="qa-item"><div class="qa-q"><span class="qa-q-badge">내용</span><span>내용📥 문의 (이지수)비즈센터에서 쿠폰비 충전 후 캠페인 라이브 진행 시 쿠폰비부터 소진되는 것으로 알고 있는데요, 해당 건은 예치금 유상 비즈머니가 먼저 소진되고 있는 것으로 보입니다. 시스템 오류일지 내용 확인 부탁드립니다!💬 답변 (개발팀 김동혁)소진 순서는 비즈센터 오픈 이후 한 번도 변경된 적이 없습니다. 550 예치금으로 처리되고, 잔액은 마지막으로 수정한 예산 기준으로 1일씩 D+4일에 소진 처리됩니다.</span></div></div></div><a href="https://wadiz.slack.com/archives/C043L2JV60G/p1779182167761579" target="_blank" class="slack-link"><svg viewBox="0 0 24 24" fill="currentColor" style="width:12px;height:12px;flex-shrink:0"><path d="M6 15a2 2 0 0 1-2 2 2 2 0 0 1-2-2 2 2 0 0 1 2-2h2v2zm1 0a2 2 0 0 1 2-2 2 2 0 0 1 2 2v5a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-5zm2-8a2 2 0 0 1-2-2 2 2 0 0 1 2-2 2 2 0 0 1 2 2v2H9zm0 1a2 2 0 0 1 2 2 2 2 0 0 1-2 2H4a2 2 0 0 1-2-2 2 2 0 0 1 2-2h5zm8 2a2 2 0 0 1 2-2 2 2 0 0 1 2 2 2 2 0 0 1-2 2h-2v-2zm-1 0a2 2 0 0 1-2 2 2 2 0 0 1-2-2V5a2 2 0 0 1 2-2 2 2 0 0 1 2 2v5zm-2 8a2 2 0 0 1 2 2 2 2 0 0 1-2 2 2 2 0 0 1-2-2v-2h2zm0-1a2 2 0 0 1-2-2 2 2 0 0 1 2-2h5a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-5z"/></svg>슬랙 원문 보기</a></div></div></div></div>`},
+
+
+
+{tab:'campaign',tag:'캠페인',tc:'#E8003D',sc:true,
+ q:'광고비 과차감 이슈 — 과차감 내역 확인 및 보상 처리',
+ kw:['광고비','과차감','2배','데이터','로직','오류','환급','무상비즈머니','보상'],
+ sum:'비즈센터 데이터 로직 문제로 일부 캠페인 광고비가 2배 차감되는 이슈 발생 이력 있음. 과차감 확인 시 → 유상 비즈머니 사용 캠페인: 과차감 차액 무상 비즈머니 환급 / 후불결제 캠페인: 정산 조정. 메이커 안내 메일 발송 필수.',
+ g:`<div class="warn"><i class="ti ti-alert-triangle"></i>광고비 과차감 이슈 발생 시 즉시 개발팀(박경원) + 은영프로님 보고 필수.</div><div class="sl">처리 방식</div><div class="steps"><div class="step"><div class="sn" style="background:#E8003D">유상</div><span>유상 비즈머니 사용 캠페인 → 과차감 차액 <strong>무상 비즈머니로 환급</strong></span></div><div class="step"><div class="sn" style="background:#E8003D">후불</div><span>후불결제 캠페인 → <strong>정산 조정</strong> 처리</span></div></div><div class="info"><i class="ti ti-info-circle"></i>과차감 피해 메이커 전체에 안내 메일 발송 필수. 메이커가 항의 없어도 선제적으로 안내.</div>`,
+ c:`<div class="case-box"><strong>2024.12.23 광고비 과차감 이슈 (안소연, 성은실)</strong><div class="qa-wrap"><div class="qa-item"><div class="qa-q"><span class="qa-q-badge">내용</span><span>내용📢 공지 (성은실/안소연)2023년 12월 23일자의 광고비가 비즈센터 데이터 로직 문제로 인해 일부 캠페인의 광고비가 2배로 차감되었습니다. 와디즈는 해당 문제를 즉시 확인했고, 정상적인 정산을 위해 아래와 같이 처리했습니다. 유상 비즈머니 사용 캠페인: 과차감된 차액을 무상 비즈머니로 환급처리. 후불결제 캠페인: 정산 조정 처리.</span></div></div></div><a href="https://wadiz.slack.com/archives/C043L2JV60G/p1735544362119649" target="_blank" class="slack-link">
+<svg viewBox="0 0 24 24" fill="currentColor" style="width:12px;height:12px"><path d="M6 15a2 2 0 0 1-2 2 2 2 0 0 1-2-2 2 2 0 0 1 2-2h2v2zm1 0a2 2 0 0 1 2-2 2 2 0 0 1 2 2v5a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-5zm2-8a2 2 0 0 1-2-2 2 2 0 0 1 2-2 2 2 0 0 1 2 2v2H9zm0 1a2 2 0 0 1 2 2 2 2 0 0 1-2 2H4a2 2 0 0 1-2-2 2 2 0 0 1 2-2h5zm8 2a2 2 0 0 1 2-2 2 2 0 0 1 2 2 2 2 0 0 1-2 2h-2v-2zm-1 0a2 2 0 0 1-2 2 2 2 0 0 1-2-2V5a2 2 0 0 1 2-2 2 2 0 0 1 2 2v5zm-2 8a2 2 0 0 1 2 2 2 2 0 0 1-2 2 2 2 0 0 1-2-2v-2h2zm0-1a2 2 0 0 1-2-2 2 2 0 0 1 2-2h5a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-5z"/></svg>슬랙 원문 보기</a></div></div></div><a href="https://wadiz.slack.com/archives/C043L2JV60G/p1735544362119649" target="_blank" class="slack-link"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M6 15a2 2 0 0 1-2 2 2 2 0 0 1-2-2 2 2 0 0 1 2-2h2v2zm1 0a2 2 0 0 1 2-2 2 2 0 0 1 2 2v5a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-5zm2-8a2 2 0 0 1-2-2 2 2 0 0 1 2-2 2 2 0 0 1 2 2v2H9zm0 1a2 2 0 0 1 2 2 2 2 0 0 1-2 2H4a2 2 0 0 1-2-2 2 2 0 0 1 2-2h5zm8 2a2 2 0 0 1 2-2 2 2 0 0 1 2 2 2 2 0 0 1-2 2h-2v-2zm-1 0a2 2 0 0 1-2 2 2 2 0 0 1-2-2V5a2 2 0 0 1 2-2 2 2 0 0 1 2 2v5zm-2 8a2 2 0 0 1 2 2 2 2 0 0 1-2 2 2 2 0 0 1-2-2v-2h2zm0-1a2 2 0 0 1-2-2 2 2 0 0 1 2-2h5a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-5z"/></svg>슬랙 원문 보기</a></div>`},
+
+{tab:'system',tag:'시스템',tc:'#1ABFA1',sc:true,
+ q:'메타 광고 계정 해킹 이슈 — 비정상 광고비 집행 및 대응',
+ kw:['해킹','광고계정','비정상','광고비','집행','에디션','보안'],
+ sum:'메타 광고 계정 해킹으로 비정상적인 광고비가 집행되는 사고 발생 이력 있음. 하루 만에 약 5천만원 집행된 케이스. 즉시 메타 측에 신고 및 계정 보안 조치 필요.',
+ g:`<div class="warn"><i class="ti ti-alert-triangle"></i>메타 광고 계정 해킹 의심 시 즉시 처리 필요:</div><div class="steps"><div class="step"><div class="sn" style="background:#1ABFA1">1</div><span>비즈센터 내 모든 라이브 캠페인 즉시 OFF</span></div><div class="step"><div class="sn" style="background:#1ABFA1">2</div><span>메타 광고관리자에서 계정 보안 설정 확인 및 비밀번호 변경</span></div><div class="step"><div class="sn" style="background:#1ABFA1">3</div><span>메타 측 해킹 신고 접수</span></div><div class="step"><div class="sn" style="background:#636e72">↗</div><span>개발팀(박경원) + 은영프로님 + 성은실 프로님 즉시 보고</span></div></div><div class="info"><i class="ti ti-info-circle"></i>비정상 집행 금액은 메타 측과 협의하여 환급 요청 가능. 단, 메타의 환급 정책에 따름.</div>`,
+ c:`<div class="case-box"><strong>에디션 광고계정 해킹 이슈 (유현나, 2026.06)</strong><div class="qa-wrap"><div class="qa-item"><div class="qa-q"><span class="qa-q-badge">내용</span><span>내용📢 공지 (유현나)전일 에디션 광고계정(와디즈_펀딩사업_2) 관련 보안 이슈가 발생하여 공유드립니다. 해당 광고계정이 해킹된 것으로 확인되었으며, 하루 만에 약 5천만원의 광고비가 비정상적으로 집행되었습니다. 광고 세팅 계정은 조정현으로 확인되었으며, 가치브라더스(에디션 광고대행사) 소속 계정으로 파악되었습니다. 원인은 사용자 계정 탈취로 확인됩니다.</span></div></div></div></div></div></div><a href="https://wadiz.slack.com/archives/C043L2JV60G/p1735544362119649" target="_blank" class="slack-link"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M6 15a2 2 0 0 1-2 2 2 2 0 0 1-2-2 2 2 0 0 1 2-2h2v2zm1 0a2 2 0 0 1 2-2 2 2 0 0 1 2 2v5a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-5zm2-8a2 2 0 0 1-2-2 2 2 0 0 1 2-2 2 2 0 0 1 2 2v2H9zm0 1a2 2 0 0 1 2 2 2 2 0 0 1-2 2H4a2 2 0 0 1-2-2 2 2 0 0 1 2-2h5zm8 2a2 2 0 0 1 2-2 2 2 0 0 1 2 2 2 2 0 0 1-2 2h-2v-2zm-1 0a2 2 0 0 1-2 2 2 2 0 0 1-2-2V5a2 2 0 0 1 2-2 2 2 0 0 1 2 2v5zm-2 8a2 2 0 0 1 2 2 2 2 0 0 1-2 2 2 2 0 0 1-2-2v-2h2zm0-1a2 2 0 0 1-2-2 2 2 0 0 1 2-2h5a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-5z"/></svg>슬랙 원문 보기</a></div>`},
+
+
+{tab:'campaign',tag:'캠페인',tc:'#E8003D',sc:true,
+ q:'캠페인 임시저장 상태로 라이브 세팅 불가',
+ kw:['임시저장','라이브','세팅','불가','캠페인','상태'],
+ sum:'캠페인이 "임시저장" 상태로 라이브 세팅되지 않는 경우 — 소진금액 없는 임시저장 캠페인은 라이브 이전 상태. 담당자가 라이브 세팅 진행 필요.',
+ g:`<div class="info"><i class="ti ti-info-circle"></i>임시저장 상태 = 라이브 전. 소진금액 없음 확인 후 라이브 세팅 진행.</div><div class="steps"><div class="step"><div class="sn" style="background:#E8003D">1</div><span>소진금액 0원 여부 확인</span></div><div class="step"><div class="sn" style="background:#E8003D">2</div><span>담당자가 쉐도우 로그인 후 캠페인 라이브 세팅 진행</span></div></div>`,
+ c:`<div class="case-box"><strong>임시저장 캠페인 라이브 불가 케이스 (이지수)</strong><div class="qa-wrap"><div class="qa-item"><div class="qa-q"><span class="qa-q-badge">내용</span><span>내용📥 문의 (이지수)해당 캠페인 현재 '임시저장' 상태로 라이브 세팅되지 않아 라이브 이전 상태입니다. 소진 금액도 없는 상태이며 라이브 세팅 진행 부탁드립니다.</span></div></div></div><a href="https://wadiz.slack.com/archives/C0733NLRBJA/p1780306020991119" target="_blank" class="slack-link"><svg viewBox="0 0 24 24" fill="currentColor" style="width:12px;height:12px;flex-shrink:0"><path d="M6 15a2 2 0 0 1-2 2 2 2 0 0 1-2-2 2 2 0 0 1 2-2h2v2zm1 0a2 2 0 0 1 2-2 2 2 0 0 1 2 2v5a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-5zm2-8a2 2 0 0 1-2-2 2 2 0 0 1 2-2 2 2 0 0 1 2 2v2H9zm0 1a2 2 0 0 1 2 2 2 2 0 0 1-2 2H4a2 2 0 0 1-2-2 2 2 0 0 1 2-2h5zm8 2a2 2 0 0 1 2-2 2 2 0 0 1 2 2 2 2 0 0 1-2 2h-2v-2zm-1 0a2 2 0 0 1-2 2 2 2 0 0 1-2-2V5a2 2 0 0 1 2-2 2 2 0 0 1 2 2v5zm-2 8a2 2 0 0 1 2 2 2 2 0 0 1-2 2 2 2 0 0 1-2-2v-2h2zm0-1a2 2 0 0 1-2-2 2 2 0 0 1 2-2h5a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-5z"/></svg>슬랙 원문 보기</a></div></div></div></div>`},
+
+{tab:'campaign',tag:'캠페인',tc:'#E8003D',sc:true,
+ q:'예치금 차감이 라이브 일자가 아닌 세팅 일자 기준으로 처리되는 이슈',
+ kw:['예치금','차감','세팅','일자','라이브','날짜','기준'],
+ sum:'비즈센터 예치금 차감은 캠페인 라이브 일자가 아닌 세팅 일자 기준으로 처리됨. 후불결제 캠페인은 비즈머니 이용내역에 미기재.',
+ g:`<div class="info"><i class="ti ti-info-circle"></i>예치금 차감 기준: <strong>라이브 일자가 아닌 세팅(등록) 일자 기준</strong></div><div class="warn"><i class="ti ti-alert-triangle"></i>후불결제 캠페인은 비즈머니 이용내역에 기재되지 않음. 후불 관련 내역은 정산팀에 별도 확인 필요.</div>`,
+ c:`<div class="case-box"><strong>예치금 차감 일자 기준 안내 (이지수)</strong><div class="qa-wrap"><div class="qa-item"><div class="qa-q"><span class="qa-q-badge">내용</span><span>내용📢 안내 (이지수)먼저, 해당 캠페인 5월 31일에 세팅된 것으로 확인되며, 예치금 차감은 캠페인 라이브 일자가 아닌 세팅 일자에 맞추어 진행됩니다. 따라서 5월 31일 차감 내역은 정상적인 상태입니다. 비즈머니 이용내역에는 후불결제가 아닌 비즈머니 관련 내역만 기재됩니다.</span></div></div></div><a href="https://wadiz.slack.com/archives/C0733NLRBJA/p1780563754235439" target="_blank" class="slack-link"><svg viewBox="0 0 24 24" fill="currentColor" style="width:12px;height:12px;flex-shrink:0"><path d="M6 15a2 2 0 0 1-2 2 2 2 0 0 1-2-2 2 2 0 0 1 2-2h2v2zm1 0a2 2 0 0 1 2-2 2 2 0 0 1 2 2v5a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-5zm2-8a2 2 0 0 1-2-2 2 2 0 0 1 2-2 2 2 0 0 1 2 2v2H9zm0 1a2 2 0 0 1 2 2 2 2 0 0 1-2 2H4a2 2 0 0 1-2-2 2 2 0 0 1 2-2h5zm8 2a2 2 0 0 1 2-2 2 2 0 0 1 2 2 2 2 0 0 1-2 2h-2v-2zm-1 0a2 2 0 0 1-2 2 2 2 0 0 1-2-2V5a2 2 0 0 1 2-2 2 2 0 0 1 2 2v5zm-2 8a2 2 0 0 1 2 2 2 2 0 0 1-2 2 2 2 0 0 1-2-2v-2h2zm0-1a2 2 0 0 1-2-2 2 2 0 0 1 2-2h5a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-5z"/></svg>슬랙 원문 보기</a></div></div></div></div>`},
+
+{tab:'system',tag:'시스템',tc:'#1ABFA1',sc:true,
+ q:'비즈센터 이용가이드 링크 오류 / 영상가이드 링크 오류',
+ kw:['이용가이드','링크','오류','영상가이드','메뉴','연결','PDF'],
+ sum:'비즈센터 관리자 메인 배너 또는 좌측 메뉴의 이용가이드, 영상가이드 링크가 오류 페이지로 연결되는 경우 — 개발팀에 링크 교체 요청 필요.',
+ g:`<div class="steps"><div class="step"><div class="sn" style="background:#1ABFA1">1</div><span>오류 발생한 링크 URL 확인</span></div><div class="step"><div class="sn" style="background:#1ABFA1">2</div><span>개발팀(박경원)에 교체할 링크와 함께 수정 요청</span></div></div><div class="info"><i class="ti ti-info-circle"></i>이용가이드 최신 PDF 링크: https://bizstatic.wadiz.kr/static/usingGuide/와디즈+비즈센터+이용가이드.pdf</div>`,
+ c:`<div class="case-box"><strong>이용가이드 링크 오류 (홍예림 → 김효성)</strong><div class="qa-wrap"><div class="qa-item"><div class="qa-q"><span class="qa-q-badge">내용</span><span>내용📥 상황 (홍예림)비즈센터ADM 메인 배너의 '이용가이드' 클릭 시 오류 페이지로 넘어가고 있어 혹시 확인 부탁드리겠습니다. 비즈센터 관리자 메인에 [이용 가이드] 연결 URL은 예전에 S3 스토리지에 저장된 가이드 파일이라 에러가 뜨는 것 같습니다.💬 처리 (김효성)영상가이드 링크도 연결이 안되어, 바꿔주시겠지만 바로 교체 부탁드립니다. 교체 링크: https://makercenter.wadiz.kr/board/card/753</span></div></div></div><a href="https://wadiz.slack.com/archives/C04HKQ3T7EE/p1781510917231469" target="_blank" class="slack-link"><svg viewBox="0 0 24 24" fill="currentColor" style="width:12px;height:12px;flex-shrink:0"><path d="M6 15a2 2 0 0 1-2 2 2 2 0 0 1-2-2 2 2 0 0 1 2-2h2v2zm1 0a2 2 0 0 1 2-2 2 2 0 0 1 2 2v5a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-5zm2-8a2 2 0 0 1-2-2 2 2 0 0 1 2-2 2 2 0 0 1 2 2v2H9zm0 1a2 2 0 0 1 2 2 2 2 0 0 1-2 2H4a2 2 0 0 1-2-2 2 2 0 0 1 2-2h5zm8 2a2 2 0 0 1 2-2 2 2 0 0 1 2 2 2 2 0 0 1-2 2h-2v-2zm-1 0a2 2 0 0 1-2 2 2 2 0 0 1-2-2V5a2 2 0 0 1 2-2 2 2 0 0 1 2 2v5zm-2 8a2 2 0 0 1 2 2 2 2 0 0 1-2 2 2 2 0 0 1-2-2v-2h2zm0-1a2 2 0 0 1-2-2 2 2 0 0 1 2-2h5a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-5z"/></svg>슬랙 원문 보기</a></div></div></div></div>`},
+
+{tab:'system',tag:'시스템',tc:'#1ABFA1',sc:true,
+ q:'CDN 서버 장애 — 비즈센터 소재 썸네일 로드 실패 / 이미지 미노출',
+ kw:['CDN','서버','장애','소재','썸네일','로드','실패','이미지','미노출'],
+ sum:'CDN 서버 장애로 비즈센터 소재 썸네일 로드가 실패하는 경우 — 1시간 이상 지속 시 보상 대상. 부분환불 대신 앱 푸시 지원으로 소통.',
+ g:`<div class="warn"><i class="ti ti-alert-triangle"></i>CDN 서버 장애 확인 즉시 개발팀(박경원) + 은영프로님 보고 필수.</div><div class="info"><i class="ti ti-info-circle"></i>광고센터 정책: 1시간 초과 장애 → 보상 대상. 부분환불 대신 앱 푸시 지원으로 소통 권고.</div><div class="steps"><div class="step"><div class="sn" style="background:#1ABFA1">1</div><span>장애 시작 시간, 해결 시간, 영향 범위 파악</span></div><div class="step"><div class="sn" style="background:#1ABFA1">2</div><span>영향받은 캠페인 목록 파악 후 메이커 안내</span></div></div>`,
+ c:`<div class="case-box"><strong>CDN 서버 장애 (김수연, 2026.06)</strong><div class="qa-wrap"><div class="qa-item"><div class="qa-q"><span class="qa-q-badge">내용</span><span>내용📢 공지 (김수연)현재 비즈센터 소재 썸네일 로드 실패가 전일 저녁부터 지속되고 있다고 합니다. 플랫폼 개발 이슈로 확인되며, 박경원 프로님께서 원인 확인 중에 있습니다. 내용 공유차 남겨드립니다.📢 보상 방향 (김효성)광고센터 정책에 따라, 1시간 초과하여 보상 대상이오나, 부분환불 대신 앱 푸시 지원으로 소통하고자 합니다. 보상안 공유드립니다.</span></div></div></div><a href="https://wadiz.slack.com/archives/C01QXSB7LMD/p1780991118037789" target="_blank" class="slack-link"><svg viewBox="0 0 24 24" fill="currentColor" style="width:12px;height:12px;flex-shrink:0"><path d="M6 15a2 2 0 0 1-2 2 2 2 0 0 1-2-2 2 2 0 0 1 2-2h2v2zm1 0a2 2 0 0 1 2-2 2 2 0 0 1 2 2v5a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-5zm2-8a2 2 0 0 1-2-2 2 2 0 0 1 2-2 2 2 0 0 1 2 2v2H9zm0 1a2 2 0 0 1 2 2 2 2 0 0 1-2 2H4a2 2 0 0 1-2-2 2 2 0 0 1 2-2h5zm8 2a2 2 0 0 1 2-2 2 2 0 0 1 2 2 2 2 0 0 1-2 2h-2v-2zm-1 0a2 2 0 0 1-2 2 2 2 0 0 1-2-2V5a2 2 0 0 1 2-2 2 2 0 0 1 2 2v5zm-2 8a2 2 0 0 1 2 2 2 2 0 0 1-2 2 2 2 0 0 1-2-2v-2h2zm0-1a2 2 0 0 1-2-2 2 2 0 0 1 2-2h5a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-5z"/></svg>슬랙 원문 보기</a></div></div></div></div>`},
+
+
+
+{tab:'creative',tag:'소재',tc:'#E17055',sc:true,
+ q:'소재 반려 — 개인정보 이용 오반려 / "3040 남자" 키워드 반려',
+ kw:['소재','반려','개인정보','이용','3040','남자','키워드','타겟'],
+ sum:'소재 내 "3040 남자", 특정 연령/성별 타겟 키워드가 개인정보 이용으로 간주되어 반려될 수 있음. 해당 키워드 삭제 후 재접수 필요.',
+ g:`<div class="warn"><i class="ti ti-alert-triangle"></i>소재 내 특정 연령·성별 타겟 키워드(예: "3040 남자", "20대 여성") 포함 시 메타 개인정보 이용 정책 위반으로 반려 가능.</div><div class="steps"><div class="step"><div class="sn" style="background:#E17055">1</div><span>해당 키워드 삭제 후 소재 수정 재접수 안내</span></div><div class="step"><div class="sn" style="background:#E17055">2</div><span>명백한 오반려인 경우 수기 검수 요청 가능</span></div></div>`,
+ c:`<div class="case-box"><strong>3040 남자 키워드 반려 케이스 (양애진)</strong><div class="qa-wrap"><div class="qa-item"><div class="qa-q"><span class="qa-q-badge">내용</span><span>내용📥 문의 (양애진)현재 해당 프로젝트 모든 소재 내 '3040 남자' 키워드가 개인정보 이용으로 간주되어 소재 반려된 것으로 확인됩니다. 해당 프로젝트 브랜딩 자체가 3040 남성 추천 티셔츠로 되어서 관련 내용 꼭 소구가 필요합니다.💬 답변 (안소연)해당 키워드 삭제 후 재접수 부탁드립니다. 메타 정책상 특정 연령/성별 타겟 키워드는 개인정보 이용으로 간주될 수 있습니다.</span></div></div></div><a href="https://wadiz.slack.com/archives/C043L2JV60G/p1742967372816499" target="_blank" class="slack-link"><svg viewBox="0 0 24 24" fill="currentColor" style="width:12px;height:12px;flex-shrink:0"><path d="M6 15a2 2 0 0 1-2 2 2 2 0 0 1-2-2 2 2 0 0 1 2-2h2v2zm1 0a2 2 0 0 1 2-2 2 2 0 0 1 2 2v5a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-5zm2-8a2 2 0 0 1-2-2 2 2 0 0 1 2-2 2 2 0 0 1 2 2v2H9zm0 1a2 2 0 0 1 2 2 2 2 0 0 1-2 2H4a2 2 0 0 1-2-2 2 2 0 0 1 2-2h5zm8 2a2 2 0 0 1 2-2 2 2 0 0 1 2 2 2 2 0 0 1-2 2h-2v-2zm-1 0a2 2 0 0 1-2 2 2 2 0 0 1-2-2V5a2 2 0 0 1 2-2 2 2 0 0 1 2 2v5zm-2 8a2 2 0 0 1 2 2 2 2 0 0 1-2 2 2 2 0 0 1-2-2v-2h2zm0-1a2 2 0 0 1-2-2 2 2 0 0 1 2-2h5a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-5z"/></svg>슬랙 원문 보기</a></div></div></div></div>`},
+
+{tab:'creative',tag:'소재',tc:'#E17055',sc:true,
+ q:'소재 반려 — Before & After 이미지 / 비포애프터 클로즈업 반려',
+ kw:['소재','반려','비포애프터','before','after','b&a','클로즈업','피부'],
+ sum:'Before & After 이미지 또는 과도한 피부 클로즈업 소재는 메타 "개인의 건강 및 외모" 정책으로 반려됨. 얼굴 전체가 보이는 거리의 소재로 수정 후 재접수 필요.',
+ g:`<div class="warn"><i class="ti ti-alert-triangle"></i>Before & After 이미지, 피부 클로즈업, 얼굴/코/입 일부만 나오는 소재는 메타 &lt;개인의 건강 및 외모&gt; 정책으로 반려 가능.</div><div class="steps"><div class="step"><div class="sn" style="background:#E17055">1</div><span>얼굴 전체가 나오는 소재로 교체 요청</span></div><div class="step"><div class="sn" style="background:#E17055">2</div><span>피부 시술 효과를 의학적 치료와 동일한 효과로 오인하게 만드는 표현 삭제</span></div><div class="step"><div class="sn" style="background:#E17055">3</div><span>수정 후 재접수</span></div></div>`,
+ c:`<div class="case-box"><strong>B&A 소재 반려 케이스 (비검소재 채널, 명세린)</strong><div class="qa-wrap"><div class="qa-item"><div class="qa-q"><span class="qa-q-badge">내용</span><span>내용📢 반려 안내 (명세린)해당 소재는 메타에서 <개인의 건강 및 외모> 사유로 사용이 불가한 소재에 해당되는 것으로 보입니다. 반려사유 및 대체표현 확인하시어 수정 후 재접수 부탁드립니다. ① 피부 클로즈업 → 삭제 필요 ② Before & After 형태 소재 → 얼굴 전체와 쇄골라인까지 보이는 수준의 먼 거리의 소재로 재접수 부탁드립니다.</span></div></div></div></div></div></div></div>`},
+
+
+{tab:'campaign',tag:'캠페인',tc:'#E8003D',sc:true,
+ q:'오픈예정 시작일에 맞춰 광고 자동 라이브 세팅 불가',
+ kw:['오픈예정','시작일','자동','라이브','세팅','동시','불가','시스템'],
+ sum:'오픈예정 시작과 동시에 광고가 자동으로 라이브 되도록 세팅하는 것은 현재 시스템상 불가. 오픈예정 일자에 맞춰 완전히 사전 세팅해두는 것도 현재 로직상 제한 있음. 오픈예정 공개 직후 즉시 세팅 권장.',
+ g:`<div class="warn"><i class="ti ti-alert-triangle"></i>오픈예정 시작과 동시에 광고 자동 라이브 되도록 세팅하는 것은 현재 시스템상 불가.</div><div class="info"><i class="ti ti-check"></i>현재 가능한 방식:<br>① 오픈예정 공개 직후 즉시 비즈센터 세팅<br>② 오픈 전 캠페인만 사전 세팅 (오픈예정 캠페인으로 세팅)</div><div class="info"><i class="ti ti-clock"></i>비즈센터 광고 라이브 최소 기간: 24시간. 오픈예정 상태 광고는 오픈예정 캠페인으로만 생성 가능.</div>`,
+ c:`<div class="case-box"><strong>오픈예정 자동 라이브 세팅 관련 (이지수 정리)</strong><div class="qa-wrap"><div class="qa-item"><div class="qa-q"><span class="qa-q-badge">내용</span><span>내용📢 정리 (이지수)"오픈예정 시작일 전에, 광고센터 안에서 프로젝트까지 다 연결·결제해 둔 뒤 오픈예정 시작과 동시에 광고가 자동으로 돌아가게 세팅"하는 구조는 현재 시스템상 불가능한 쪽에 가깝습니다. 그래서 메이커님 말씀처럼 "오픈예정 일자에 딱 맞춰서 광고를 완전히 사전 세팅해 두는 것"은 지금 로직에선 제한이 있다고 보셔야 합니다.</span></div></div></div><a href="https://wadiz.slack.com/archives/C0B80UX0VRR/p1781857845306589" target="_blank" class="slack-link"><svg viewBox="0 0 24 24" fill="currentColor" style="width:12px;height:12px;flex-shrink:0"><path d="M6 15a2 2 0 0 1-2 2 2 2 0 0 1-2-2 2 2 0 0 1 2-2h2v2zm1 0a2 2 0 0 1 2-2 2 2 0 0 1 2 2v5a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-5zm2-8a2 2 0 0 1-2-2 2 2 0 0 1 2-2 2 2 0 0 1 2 2v2H9zm0 1a2 2 0 0 1 2 2 2 2 0 0 1-2 2H4a2 2 0 0 1-2-2 2 2 0 0 1 2-2h5zm8 2a2 2 0 0 1 2-2 2 2 0 0 1 2 2 2 2 0 0 1-2 2h-2v-2zm-1 0a2 2 0 0 1-2 2 2 2 0 0 1-2-2V5a2 2 0 0 1 2-2 2 2 0 0 1 2 2v5zm-2 8a2 2 0 0 1 2 2 2 2 0 0 1-2 2 2 2 0 0 1-2-2v-2h2zm0-1a2 2 0 0 1-2-2 2 2 0 0 1 2-2h5a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-5z"/></svg>슬랙 원문 보기</a></div></div></div></div>`},
+
+{tab:'creative',tag:'소재',tc:'#E17055',sc:true,
+ q:'소재 반려 — 주식/투자 관련 수익 표현 / 자동 수익화 워딩',
+ kw:['소재','반려','주식','투자','수익','자동수익','자동매출','워딩','반려'],
+ sum:'"몇 백만원 하는", "자동 수익", "자동 매출" 등 금전적 수익·투자 관련 워딩은 메타 광고 가이드라인으로 반려 대상. "고가의" 등으로 수정 필요.',
+ g:`<div class="warn"><i class="ti ti-alert-triangle"></i>메타 광고 가이드 강화로 아래 워딩 반려 대상:</div><div class="steps"><div class="step"><div class="sn" style="background:#E17055">✗</div><span>"몇 백만원 하는", "월 4천 이상" 등 구체적 금액 수익 소구</span></div><div class="step"><div class="sn" style="background:#E17055">✗</div><span>"자동 수익", "자동 매출", "자동화 시스템" 등 자동 수익화 표현</span></div><div class="step"><div class="sn" style="background:#1ABFA1">✓</div><span>"고가의", "프리미엄" 등으로 수정 후 재접수</span></div></div>`,
+ c:`<div class="case-box"><strong>수익 워딩 반려 케이스 (비검소재 채널, 윤태린)</strong><div class="qa-wrap"><div class="qa-item"><div class="qa-q"><span class="qa-q-badge">내용</span><span>내용📢 반려 안내 (윤태린)Meta 광고 가이드 강화로 인해 '금전' '수익'관련 워딩 반려 대상으로 수정이 필요합니다. ① 몇 백만원 하는 → '고가의'로 수정 필요 ② 영상 내 '수익화' → 삭제. 메이커님, 강화된 가이드라인에 따라 리워드 가격이 아닌 이외의 수익, 매출 등 금전 관련 워딩은 소구 불가합니다. '고가의' 등으로 수정 부탁드립니다.</span></div></div></div><a href="https://wadiz.slack.com/archives/C043L2JV60G/p1765241262103489" target="_blank" class="slack-link"><svg viewBox="0 0 24 24" fill="currentColor" style="width:12px;height:12px;flex-shrink:0"><path d="M6 15a2 2 0 0 1-2 2 2 2 0 0 1-2-2 2 2 0 0 1 2-2h2v2zm1 0a2 2 0 0 1 2-2 2 2 0 0 1 2 2v5a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-5zm2-8a2 2 0 0 1-2-2 2 2 0 0 1 2-2 2 2 0 0 1 2 2v2H9zm0 1a2 2 0 0 1 2 2 2 2 0 0 1-2 2H4a2 2 0 0 1-2-2 2 2 0 0 1 2-2h5zm8 2a2 2 0 0 1 2-2 2 2 0 0 1 2 2 2 2 0 0 1-2 2h-2v-2zm-1 0a2 2 0 0 1-2 2 2 2 0 0 1-2-2V5a2 2 0 0 1 2-2 2 2 0 0 1 2 2v5zm-2 8a2 2 0 0 1 2 2 2 2 0 0 1-2 2 2 2 0 0 1-2-2v-2h2zm0-1a2 2 0 0 1-2-2 2 2 0 0 1 2-2h5a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-5z"/></svg>슬랙 원문 보기</a></div></div></div></div>`},
+
+];
+
+
+let cur='all';
+
+function tok(t){return t.toLowerCase().replace(/[^가-힣a-z0-9\s]/g,' ').split(/\s+/).filter(x=>x.length>0);}
+function sc(faq,q){
+  const ts=tok(q);let s=0;
+  ts.forEach(t=>{
+    if(faq.kw.some(k=>k.toLowerCase().includes(t)||t.includes(k.toLowerCase())))s+=3;
+    if(faq.q.toLowerCase().includes(t))s+=2;
+    if(faq.sum.toLowerCase().includes(t))s+=1;
+    if(faq.tag.toLowerCase().includes(t))s+=1;
+  });
+  return s;
+}
+function doSearch(){
+  const q=document.getElementById('srchInput').value.trim();
+  if(!q){closeSr();return;}
+  const res=F.map(f=>({f,s:sc(f,q)})).filter(r=>r.s>0).sort((a,b)=>b.s-a.s).slice(0,8);
+  const wrap=document.getElementById('srWrap');
+  const list=document.getElementById('srList');
+  document.getElementById('srTitle').textContent=`"${q}" 검색 결과 ${res.length}건`;
+  wrap.classList.add('show');
+  if(res.length===0){list.innerHTML='<div class="sr-empty">관련 가이드를 찾지 못했습니다. 다른 키워드로 검색해보세요.</div>';return;}
+  list.innerHTML=res.map(r=>{
+    const f=r.f;
+    return`<div class="sr-item" onclick="goFaq('${f.tab}','${encodeURIComponent(f.q)}')">
+      <div class="sr-tags"><span class="sr-tag" style="background:${f.tc}15;color:${f.tc}">${f.tag}</span>${f.sc?'<span class="slack-badge">슬랙케이스</span>':''}</div>
+      <div class="sr-item-q">${f.q}</div>
+      <div class="sr-item-sum">${f.sum.substring(0,90)}...</div>
+    </div>`;
+  }).join('');
+}
+function goFaq(tab,eq){
+  closeSr();sw(tab);
+  setTimeout(()=>{
+    const q=decodeURIComponent(eq);
+    document.querySelectorAll('.fq-title').forEach((el,i)=>{
+      if(el.textContent===q){
+        const fa=document.getElementById('fa'+i);
+        const fch=document.getElementById('fch'+i);
+        if(fa&&!fa.classList.contains('open')){fa.classList.add('open');fch.classList.add('open');}
+        el.closest('.fi').scrollIntoView({behavior:'smooth',block:'center'});
+      }
+    });
+  },100);
+}
+function closeSr(){document.getElementById('srWrap').classList.remove('show');}
+function setQ(q){document.getElementById('srchInput').value=q;doSearch();}
+document.getElementById('srchInput').addEventListener('keydown',e=>{if(e.key==='Enter')doSearch();});
+
+function renderTabs(){
+  const row=document.getElementById('tabs');
+  const cnt={};F.forEach(f=>{cnt[f.tab]=(cnt[f.tab]||0)+1;});
+  row.innerHTML=TABS.map(t=>{const c=t.id==='all'?F.length:(cnt[t.id]||0);return`<button class="tab${t.id===cur?' on':''}" onclick="sw('${t.id}')">${t.label}<span class="n">${c}</span></button>`;}).join('');
+}
+function renderFaqs(){
+  const list=document.getElementById('flist');
+  const items=cur==='all'?F:F.filter(f=>f.tab===cur);
+  list.innerHTML=items.map((f,i)=>`
+    <div class="fi${f.sc?' sc':''}">
+      <div class="fq" onclick="tFaq(${i})">
+        <div class="fq-l">
+          <div class="fq-tags"><span class="ftag" style="background:${f.tc}15;color:${f.tc}">${f.tag}</span>${f.sc?'<span class="slack-badge">슬랙케이스</span>':''}</div>
+          <div class="fq-title">${f.q}</div>
+        </div>
+        <i class="ti ti-chevron-down fchev" id="fch${i}"></i>
+      </div>
+      <div class="fa" id="fa${i}">
+        <div class="fa-body">
+          <p class="fa-sum">${f.sum}</p>
+          <div class="stog"><div class="st-h" onclick="tSub('sg${i}','sc${i}',event)"><span class="st-hl"><i class="ti ti-list-details"></i>세부 가이드</span><i class="ti ti-chevron-down st-chev" id="sc${i}"></i></div><div class="st-b" id="sg${i}">${f.g}</div></div>
+          ${f.c?`<div class="stog"><div class="st-h" onclick="tSub('sb${i}','sc2${i}',event)"><span class="st-hl cl"><i class="ti ti-file-description"></i>실제 사례 / 슬랙 원문</span><i class="ti ti-chevron-down st-chev" id="sc2${i}"></i></div><div class="st-b" id="sb${i}">${f.c}</div></div>`:''}
+        </div>
+      </div>
+    </div>`).join('');
+}
+function sw(id){cur=id;renderTabs();renderFaqs();}
+function tFaq(i){document.getElementById('fa'+i).classList.toggle('open');document.getElementById('fch'+i).classList.toggle('open');}
+function tSub(bId,cId,e){e.stopPropagation();document.getElementById(bId).classList.toggle('open');document.getElementById(cId).classList.toggle('open');}
+
+document.getElementById('totalCnt').textContent=F.length;
+document.getElementById('slackCnt').textContent=F.filter(f=>f.sc).length;
+// v8: 43개 항목, 슬랙케이스 26개
+renderTabs();renderFaqs();
+</script>
+</body>
+</html>
